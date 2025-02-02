@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block css %}
+    <!-- Css -->
+    <link rel="stylesheet" href="{% static 'lib/jquery-confirm-v3.3.4/jquery-confirm.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sweetalert.css' %}">
+{% endblock %}
+
+{% block main_container %}
+    <main class="app-main"> <!--begin::App Content Header-->
+        <div class="app-content-header"> <!--begin::Container-->
+            <div class="container-fluid"> <!--begin::Row-->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 class="mb-0">Usuarios</h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-end">
+                            <li class="breadcrumb-item"><a href="{% url 'general_app:inicio' %}">Inicio</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'users:lista_usuarios' %}">Usuarios</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                {{ title }}
+                            </li>
+                        </ol>
+                    </div>
+                </div> <!--end::Row-->
+            </div> <!--end::Container-->
+        </div>
+        <div class="app-content"> <!--begin::Container-->
+            <div class="container-fluid"> <!-- Info boxes -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Perfil de Usuario</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-4">
+                                        <div class="card-body box-profile card-primary card-outline">
+                                            <div class="text-center">
+                                                <img class="profile-user-img img-fluid img-circle"
+                                                     src="{{ request.user.get_image }}"
+                                                     alt="User profile picture">
+                                            </div>
+                                            <h3 class="profile-username text-center m-3">
+                                                {% if request.user.first_name and request.user.last_name %}
+                                                    {{ request.user.first_name }} {{ request.user.last_name }}
+                                                {% else %}
+                                                    Superusuario
+                                                {% endif %}
+                                            </h3>
+                                            <div class="row justify-content-between">
+                                                <button id="btnUpdateUser" style="width: 48%"
+                                                        class="btn btn-sm btn-primary">
+                                                    <i class="fas fa-edit text-center"></i>
+                                                    <b>Editar perfil</b>
+                                                </button>
+                                                <a href="{% url 'users:cambiar_contraseña_usuario' %}" style="width: 48%"
+                                                   class="btn btn-sm btn-secondary">
+                                                    <i class="fas fa-user-lock text-center"></i>
+                                                    <b>Cambiar contraseña</b>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Información del usuario</h3>
+                                        </div>
+                                        <div class="card-body box-profile">
+                                            <ul class="list-group list-group-unbordered mb-3">
+                                                <li class="list-group-item">
+                                                    <b>Usuario:</b>
+                                                    <span class="float-right text-muted">{{ request.user.username }}</span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Activo</b>
+                                                    {% if request.user.is_active %}
+                                                        <span class="float-right text-primary">SI</span>
+                                                    {% else %}
+                                                        <span class="float-right text-danger">NO</span>
+                                                    {% endif %}
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Superusuario:</b>
+                                                    {% if request.user.is_superuser %}
+                                                        <span class="float-right text-primary">SI</span>
+                                                    {% else %}
+                                                        <span class="float-right text-danger">NO</span>
+                                                    {% endif %}
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Usuario Administrador:</b>
+                                                    {% if request.user.is_staff %}
+                                                        <span class="float-right text-primary">SI</span>
+                                                    {% else %}
+                                                        <span class="float-right text-danger">NO</span>
+                                                    {% endif %}
+                                                </li>
+                                                <li class="list-group-item border-top-0">
+                                                    <b>Correo:</b>
+                                                    {% if request.user.email %}
+                                                        <span class="float-right text-muted">{{ request.user.email }}</span>
+                                                    {% else %}
+                                                        <span class="float-right text-muted">Sin correo electrónico</span>
+                                                    {% endif %}
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Fecha de registro:</b>
+                                                    <span class="float-right text-muted">{{ request.user.date_joined }}</span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Último acceso:</b>
+                                                    <span class="float-right text-muted">{{ request.user.last_login }}</span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Estado:</b>
+                                                    {% if request.user.is_authenticated %}
+                                                        <span class="float-right text-success">
+                                                <i class="fa fa-circle fa-xs text-success"></i>&nbsp;Conectado</span>
+                                                    {% else %}
+                                                        <span class="float-right text-danger">
+                                                <i class="fa fa-circle fa-xs text-danger"></i>&nbsp;Desconectado</span>
+                                                    {% endif %}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!--end::Container-->
+        </div> <!--end::App Content-->
+    </main> <!--end::App Main--> <!--begin::Footer-->
+{% endblock %}
+
+{% block javascript %}
+
+    <div class="modal fade" id="modal_user_edit">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title"><i class="fas fa-edit"></i> {{ title }}</h6>
+                </div>
+                <form role="form" method="post" id="UserProfileForm" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- input invisible para trabajar con Ajax -->
+                    <!-- este input invisible sirve para el create y update del modal -->
+                    <input type="hidden" name="action" value="{{ action }}">
+
+                    <div class="modal-body">
+                        <div class="alert alert-dismissible fade show text-primary" role="alert"
+                             style="background: #E8F7FF; border-color: #8ABCFF; font-family: Arial; font-size: 12px">
+                            <i class="icon fa fa-info fa-lg"></i>
+                            Estimado usuario. Los campos remarcados con <b class="text-danger">*</b> son necesarios.
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="fw-bold mb-1"><b class="text-danger">*</b> {{ form.first_name.label }}:</label>
+                                {{ form.first_name }}
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="fw-bold mb-1"><b class="text-danger">*</b> Apellido:</label>
+                                {{ form.last_name }}
+                            </div>
+                            <div class="form-group mt-2 col-md-12">
+                                <label class="fw-bold mb-1"><b class="text-danger">*</b> {{ form.username.label }}:</label>
+                                {{ form.username }}
+                            </div>
+                            <div class="form-group mt-2 col-md-12">
+                                <label class="fw-bold mb-1">{{ form.email.label }}:</label>
+                                {{ form.email }}
+                            </div>
+                            <div class="form-group mt-2 col-md-12">
+                                <label class="fw-bold mb-1">{{ form.image.label }}:</label>
+                                {% if form.instance.image %}
+                                    <div class="pb-6">
+                                        <div class="">{{ form.image }}</div>
+                                    </div>
+                                {% else %}
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            {{ form.image|attr:'class: custom-file-input'|attr:'id: exampleInputFile'|attr:'type:file' }}
+                                            <label class="custom-file-label" for="exampleInputFile"
+                                                   data-browse="Seleccionar archivo">Ninguno archivo
+                                                selec.</label>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'lib/adminlte-v4.0.0/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- bootstrap.bundle.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jquery-validation -->
+    <script src="{% static 'lib/adminlte-v4.0.0/plugins/jquery-validation/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'lib/adminlte-v4.0.0/plugins/jquery-validation/additional-methods.min.js' %}"></script>
+    <!-- jquery-confirm-v3.3.4 -->
+    <script src="{% static 'lib/jquery-confirm-v3.3.4/jquery-confirm.min.js' %}"></script>
+    <script src="{% static 'js/users/user_profile.js' %}"></script>
+    <!-- bs-custom-file-input -->
+    <script src="{% static 'lib/adminlte-v4.0.0/plugins/bs-custom-file-input/bs-custom-file-input.min.js' %}"></script>
+{% endblock %}

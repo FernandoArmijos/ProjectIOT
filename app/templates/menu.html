@@ -1,0 +1,112 @@
+{% load static %}
+<aside class="app-sidebar bg-body-light shadow" data-bs-theme="light" style="height: 100vh; overflow-y: auto;">
+    <div class="sidebar-brand">
+        <a href="{% url 'general_app:inicio' %}" class="brand-link">
+            <img src="{% static 'img/layers.png' %}"
+                 alt="G-VIEW DATA" class="brand-image opacity-75">
+            <span class="brand-text fw-light"><b class="fw-bold">G-VIEW</b> DATA</span>
+        </a>
+    </div>
+
+    <div class="sidebar-wrapper" style="display: flex; flex-direction: column; height: calc(100% - 57px);">
+        <nav class="mt-2" style="flex-grow: 1; overflow-y: auto;">
+            <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
+                <li class="nav-item">
+                    <a href="{% url 'general_app:inicio' %}" class="nav-link">
+                        <i class="nav-icon bi bi-speedometer"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li class="nav-header">MÓDULOS</li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon bi bi-table text-primary"></i>
+                        <p>Reportes <i class="nav-arrow bi bi-chevron-right"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url 'reports:reportes' %}" class="nav-link">
+                                <i class="nav-icon bi bi-file-earmark-spreadsheet"></i>
+                                <p>Reporte de datos</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon bi bi-people-fill text-danger"></i>
+                        <p>Usuarios <i class="nav-arrow bi bi-chevron-right"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            {% if user.is_superuser %}
+                                <a href="{% url 'users:lista_usuarios' %}" class="nav-link">
+                                    <i class="nav-icon bi bi-person-check"></i>
+                                    <p>Administrar Usuarios</p>
+                                </a>
+                            {% else %}
+                                <a href="#" onclick="alert_maintenance();" class="nav-link">
+                                    <i class="nav-icon bi bi-person-check"></i>
+                                    <p>Administrar Usuarios</p>
+                                </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </li>
+                <!---
+                <li class="nav-item"><a href="#" class="nav-link"> <i
+                        class="nav-icon bi bi-gear-fill text-success"></i>
+                    <p>
+                        Configuración
+                        <i class="nav-arrow bi bi-chevron-right"></i>
+                    </p>
+                </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"> <i class="nav-icon bi bi-tools"></i>
+                                <p>
+                                    Administrar datos
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                --->
+            </ul>
+        </nav>
+
+        <nav class="mt-2" style="flex-shrink: 0;">
+            <ul class="nav sidebar-menu flex-column" role="menu">
+                <li class="nav-header">DOCUMENTACIÓN</li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon bi bi-download"></i>
+                        <p>Instalación</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon bi bi-download"></i>
+                        <p>Manual de Usuario</p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</aside>
+<style>
+    .sidebar-wrapper nav ul li .nav-link {
+        color: #343a40 !important;
+    }
+</style>
+
+<script>
+    function alert_maintenance() {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Alerta!',
+            text: 'Actualmente no tienes acceso a este módulo',
+            customClass: 'swal-wide',
+        });
+    }
+</script>

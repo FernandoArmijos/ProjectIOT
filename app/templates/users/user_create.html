@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block css %}
+    <!-- Css -->
+    <link rel="stylesheet" href="{% static 'lib/jquery-confirm-v3.3.4/jquery-confirm.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sweetalert.css' %}">
+{% endblock %}
+
+{% block main_container %}
+    <main class="app-main"> <!--begin::App Content Header-->
+        <div class="app-content-header"> <!--begin::Container-->
+            <div class="container-fluid"> <!--begin::Row-->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 class="mb-0">Usuarios</h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-end">
+                            <li class="breadcrumb-item"><a href="{% url 'general_app:inicio' %}">Inicio</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'users:lista_usuarios' %}">Usuarios</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                {{ title }}
+                            </li>
+                        </ol>
+                    </div>
+                </div> <!--end::Row-->
+            </div> <!--end::Container-->
+        </div>
+        <div class="app-content"> <!--begin::Container-->
+            <div class="container-fluid"> <!-- Info boxes -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Crear Usuario</h5>
+                            </div>
+                            <div class="card-body">
+                                <form role="form" method="post" id="UserForm" enctype="multipart/form-data">
+                                    {% csrf_token %}
+
+                                    <!-- input invisible para trabajar con Ajax -->
+                                    <input type="hidden" name="action" value="{{ action }}">
+                                    <div class="row mt-3">
+                                        <div class="form-group col-md-6">
+                                            <label class="fw-bold mb-1"><b class="text-danger">*</b> {{ form.first_name.label }}:</label>
+                                            {{ form.first_name }}
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="fw-bold mb-1"><b class="text-danger">*</b> Apellido:</label>
+                                            {{ form.last_name }}
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="form-group col-md-6">
+                                            <label class="fw-bold mb-1"><b class="text-danger">*</b> {{ form.username.label }}:</label>
+                                            {{ form.username }}
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="fw-bold mb-1"><b class="text-danger">*</b> {{ form.password.label }}:</label>
+                                            {{ form.password }}
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="form-group col-md-6">
+                                            <label class="fw-bold mb-1">{{ form.email.label }}:</label>
+                                            {{ form.email }}
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="form-group col-md-6">
+                                            <div class="row justify-content-end">
+                                                <div class="col-md-10">
+                                                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                                        {{ form.is_active|attr:'class: custom-control-input' }}
+                                                        <label class="custom-control-label" for="id_is_active">Activo
+                                                            | Inactivo
+                                                        </label>
+                                                    </div>
+                                                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                                        {{ form.is_superuser|attr:'class: custom-control-input' }}
+                                                        <label class="custom-control-label"
+                                                               for="id_is_superuser">Superusuario</label>
+                                                    </div>
+                                                    <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                                                        {{ form.is_staff|attr:'class: custom-control-input' }}
+                                                        <label class="custom-control-label" for="id_is_staff">Usuario
+                                                            administrador</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12 mt-3 mb-3">
+                                            <label class="fw-bold mb-1">{{ form.image.label }}:</label>
+                                            {% if form.instance.image %}
+                                                <div class="form-control">{{ form.image }}</div>
+                                            {% else %}
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        {{ form.image|attr:'class: custom-file-input'|attr:'id: exampleInputFile'|attr:'type:file' }}
+                                                        <label class="custom-file-label" for="exampleInputFile"
+                                                               data-browse="Seleccionar archivo">Ninguno archivo selec.
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="footer">
+                                        <div class="btn-group">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-save"></i> Guardar
+                                            </button>
+                                            <a href="{{ list_url }}" class="btn btn-danger">
+                                                <i class="fas fa-times"></i> Cancelar</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!--end::Container-->
+        </div> <!--end::App Content-->
+    </main> <!--end::App Main--> <!--begin::Footer-->
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static 'lib/adminlte-v4.0.0/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- jquery-validation -->
+    <script src="{% static 'lib/adminlte-v4.0.0/plugins/jquery-validation/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'lib/adminlte-v4.0.0/plugins/jquery-validation/additional-methods.min.js' %}"></script>
+    <!-- jquery-confirm-v3.3.4 -->
+    <script src="{% static 'lib/jquery-confirm-v3.3.4/jquery-confirm.min.js' %}"></script>
+
+    <script>
+        $('form').on('submit', function (e) {
+            e.preventDefault();
+
+            if ($('input[name="first_name"]').val().length == 0 && $('input[name="last_name"]').val().length == 0) {
+                alert_error('<p>Este campo es obligatorio.</p>' + 'Este campo es obligatorio.');
+                return false;
+            } else if ($('input[name="first_name"]').val().length == 0 || $('input[name="last_name"]').val().length == 0) {
+                alert_error('Este campo es obligatorio.');
+                return false;
+            }
+
+            var parameters = new FormData(this);
+            submit_files_with_ajax(
+                window.location.pathname,
+                'text-primary fa fa-info',
+                'Confirmación!',
+                '¿Estás seguro que deseas realizar esta acción?',
+                parameters,
+                function () {
+                    location.href = '{{ list_url }}';
+                }
+            );
+        });
+    </script>
+
+    <script src="{% static 'js/users/user_create.js' %}"></script>
+
+    <!-- bs-custom-file-input -->
+    <script src="{% static 'lib/adminlte-v4.0.0/plugins/bs-custom-file-input/bs-custom-file-input.min.js' %}"></script>
+{% endblock %}

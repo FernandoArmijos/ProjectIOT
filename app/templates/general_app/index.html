@@ -1,0 +1,264 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main_container %}
+    <main class="app-main"> <!--begin::App Content Header-->
+        <div class="app-content-header"> <!--begin::Container-->
+            <div class="container-fluid"> <!--begin::Row-->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h3 class="mb-0">Dashboard</h3>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-end">
+                            <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                Dashboard
+                            </li>
+                        </ol>
+                    </div>
+                </div> <!--end::Row-->
+            </div> <!--end::Container-->
+        </div>
+        <div class="app-content"> <!--begin::Container-->
+            <div class="container-fluid"> <!-- Info boxes -->
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <div class="info-box"> <span class="info-box-icon text-bg-danger shadow-sm">
+                        <i class="fas fa-thermometer-three-quarters"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Temperatura</span>
+                                <span class="info-box-number">
+                                    Interna: <comment id="last_inner_temp">{{ last_inner_temp|default:"0" }}</comment><small> °C</small>
+                                </span>
+                                <span class="info-box-number">
+                                    Externa: <comment id="last_outer_temp">{{ last_outer_temp|default:"0" }}</comment><small> °C</small>
+                                </span>
+                            </div> <!-- /.info-box-content -->
+                        </div> <!-- /.info-box -->
+                    </div> <!-- /.col -->
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <div class="info-box"><span class="info-box-icon text-bg-primary shadow-sm">
+                        <i class="fas fa-tint"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Humedad relativa</span>
+                                <span class="info-box-number">
+                                    Interna: <comment
+                                        id="last_inner_hum">{{ last_inner_hum|default:"0" }}</comment><small> %</small>
+                                </span>
+                                <span class="info-box-number">
+                                    Externa: <comment
+                                        id="last_outer_hum">{{ last_outer_hum|default:"0" }}</comment><small> %</small>
+                                </span>
+                            </div> <!-- /.info-box -->
+                        </div> <!-- /.col --> <!-- fix for small devices only -->
+                    </div>
+                    <!-- <div class="clearfix hidden-md-up"></div> -->
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <div class="info-box"><span class="info-box-icon text-bg-success shadow-sm">
+                        <i class="fas fa-hand-holding-water"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Humedad del Suelo</span>
+                                <span class="info-box-number">
+                                    <comment id="last_soil_hum">{{ last_soil_hum|default:"0" }}</comment>
+                                    <small> %</small>
+                                </span>
+                            </div>
+                        </div> <!-- /.info-box -->
+                    </div> <!-- /.col -->
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <div class="info-box"><span class="info-box-icon text-bg-warning shadow-sm">
+                        <i class="fas fa-vial"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Dióxido de carbono (CO₂)</span>
+                                <span class="info-box-number">
+                                    <comment id="last_co2">{{ last_co2|default:"0.0" }}</comment>
+                                    <small> ppm</small>
+                                </span>
+                            </div>
+                        </div> <!-- /.info-box -->
+                    </div> <!-- /.col -->
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <div class="info-box"><span class="info-box-icon text-bg-secondary shadow-sm">
+                        <i class="fas fa-burn"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Metano (CH₄)</span>
+                                <span class="info-box-number">
+                                    <comment id="last_ch4">{{ last_ch4|default:"0.0" }}</comment>
+                                    <small> ppm</small>
+                                </span>
+                            </div>
+                        </div> <!-- /.info-box -->
+                    </div> <!-- /.col -->
+                    <div class="col-12 col-sm-6 col-md-4">
+                        <div class="info-box"><span class="info-box-icon text-bg-dark shadow-sm">
+                        <i class="fas fa-atom"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Óxido nitroso (N₂O)</span>
+                                <span class="info-box-number">
+                                    <comment id="last_n2o">{{ last_n2o|default:"0.0" }}</comment>
+                                    <small> ppm</small>
+                                </span>
+                            </div>
+                        </div> <!-- /.info-box -->
+                    </div> <!-- /.col -->
+                </div> <!-- /.row --> <!--begin::Row-->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Gráfico de temperatura</h5>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="container_chart_temperatures"></div>
+                            </div>
+                        </div>
+                    </div> <!-- /.col-md-6 -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Gráfico de humedad relativa</h5>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="container_chart_humidity"></div>
+                            </div>
+                        </div>
+                    </div> <!-- /.col-md-6 -->
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Gráfico de humedad del suelo</h5>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="container_chart_humidity_soil"></div>
+                            </div>
+                        </div>
+                    </div> <!-- /.col-md-6 -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Gráfico de Dióxido de carbono (CO₂)</h5>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="container_chart_co2"></div>
+                            </div>
+                        </div>
+                    </div> <!-- /.col-md-6 -->
+                </div> <!-- /.row --> <!--begin::Row-->
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Gráfico del Metano (CH₄)</h5>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="container_chart_ch4"></div>
+                            </div>
+                        </div>
+                    </div> <!-- /.col-md-6 -->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Gráfico de Óxido nitroso (N₂O)</h5>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="container_chart_n2o"></div>
+                            </div>
+                        </div>
+                    </div> <!-- /.col-md-6 -->
+                </div>
+            </div> <!--end::Container-->
+        </div> <!--end::App Content-->
+    </main> <!--end::App Main--> <!--begin::Footer-->
+{% endblock %}
+
+{% block javascript %}
+
+    <script>
+        function updateData() {
+            fetch('/dashboard/get_latest_data') // Url correcta
+                .then(response => response.json())
+                .then(data => {
+                    if (data) { // Comprueba si los datos son nulos/vacíos
+                        document.getElementById('last_inner_temp').textContent = data.inner_temp !== null ? data.inner_temp : "0";
+                        document.getElementById('last_outer_temp').textContent = data.outer_temp !== null ? data.outer_temp : "0";
+                        document.getElementById('last_inner_hum').textContent = data.inner_hum !== null ? data.inner_hum : "0";
+                        document.getElementById('last_outer_hum').textContent = data.outer_hum !== null ? data.outer_hum : "0";
+                        document.getElementById('last_soil_hum').textContent = data.soil_hum !== null ? data.soil_hum : "0";
+                        document.getElementById('last_co2').textContent = data.co2 !== null ? data.co2 : "0";
+                        document.getElementById('last_ch4').textContent = data.ch4 !== null ? data.ch4.toFixed(1) : "0.0";
+                        document.getElementById('last_n2o').textContent = data.n2o !== null ? data.n2o : "0";
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching data:", error);
+                });
+        }
+
+        updateData();
+        setInterval(updateData, 5000);
+    </script>
+
+    <script src="{% static 'lib/Highcharts-10.2.1/highcharts.js' %}"></script>
+    <script src="{% static 'lib/Highcharts-10.2.1/modules/exporting.js' %}"></script>
+    <script src="{% static 'lib/Highcharts-10.2.1/modules/export-data.js' %}"></script>
+    <script src="{% static 'lib/Highcharts-10.2.1/modules/accessibility.js' %}"></script>
+
+    <script src="{% static 'lib/adminlte-v4.0.0/plugins/jquery/jquery.min.js' %}"></script>
+
+    <script src="{% static 'js/general_app/chart_temp.js' %}"></script>
+    <script src="{% static 'js/general_app/chart_hum_rel.js' %}"></script>
+    <script src="{% static 'js/general_app/chart_soil_hum.js' %}"></script>
+    <script src="{% static 'js/general_app/chart_co2.js' %}"></script>
+    <script src="{% static 'js/general_app/chart_ch4.js' %}"></script>
+    <script src="{% static 'js/general_app/chart_n20.js' %}"></script>
+{% endblock %}

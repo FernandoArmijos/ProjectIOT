@@ -1,0 +1,47 @@
+{% block messages %}
+    <script type="application/javascript">
+        {% if messages %}
+            var content_message = ''
+            {% for message in messages %}
+                content_message += '{{ message }}\n'
+                {% if message.tags == "success"  %}
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito!',
+                        html: "<div class='swal2-html-container'>" + content_message + "</div>" + "<br>",
+                        timer: 2000,
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        //confirmButtonColor: '#28a745',
+                        customClass: 'swal-wide',
+                    });
+                {% elif message.tags == "error" %}
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: content_message,
+                        customClass: 'swal-wide',
+                    });
+                {% elif message.tags == "warning" %}
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Alerta!',
+                        text: content_message,
+                        customClass: 'swal-wide',
+                    });
+                {% elif message.tags == "info" %}
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Bienvenido!',
+                        html: "<div class='swal2-html-container'>" + content_message + "</div>" + "<br>",
+                        //timer: 2000,
+                        //showCancelButton: false,
+                        //showConfirmButton: false,
+                        //confirmButtonColor: '#28a745',
+                        customClass: 'swal-wide',
+                    });
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </script>
+{% endblock %}

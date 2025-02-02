@@ -7,10 +7,10 @@ set -o errexit
 pip install -r app/requirements.txt
 
 # Convert static asset files
-python manage.py collectstatic --noinput
+python app/manage.py collectstatic --noinput
 
 # Apply any outstanding database migrations
-python manage.py migrate
+python app/manage.py migrate
 
 #Asegúrese de que el script sea ejecutable antes de agregarlo al control de versiones:
 #sudo chmod a+x build.sh

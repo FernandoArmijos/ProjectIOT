@@ -11649,7 +11649,7 @@
           columnMinWidths = [],
           j,
           tableHeaderConfigs = [],
-          //set up defaults. If a value is provided in config, defaults will be overwritten:
+          //set up defaults. If a value is provided in app, defaults will be overwritten:
       autoSize = config.autoSize || false,
           printHeaders = config.printHeaders === false ? false : true,
           fontSize = config.css && typeof config.css["font-size"] !== "undefined" ? config.css["font-size"] * 16 : config.fontSize || 12,
@@ -11746,7 +11746,7 @@
 
         tableHeaderConfigs = headerNames.map(function (value) {
           return new Cell(x, y, columnWidths[value], rowHeight, row[value].text, undefined, row[value].align);
-        }); // Store the table header config
+        }); // Store the table header app
 
         this.setTableHeaderRow(tableHeaderConfigs); // Print the header for the start of the table
 
@@ -11814,12 +11814,12 @@
       }, 0);
     };
     /**
-     * Store the config for outputting a table header
+     * Store the app for outputting a table header
      *
      * @name setTableHeaderRow
      * @function
-     * @param {Object[]} config
-     * An array of cell configs that would define a header row: Each config matches the config used by jsPDFAPI.cell
+     * @param {Object[]} app
+     * An array of cell configs that would define a header row: Each app matches the app used by jsPDFAPI.cell
      * except the lineNumber parameter is excluded
      */
 

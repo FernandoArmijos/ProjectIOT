@@ -442,7 +442,7 @@
                 /**
                  * Options for annotation's labels. Each label inherits options
                  * from the labelOptions object. An option from the labelOptions
-                 * can be overwritten by config for a specific label.
+                 * can be overwritten by app for a specific label.
                  *
                  * @requires modules/annotations
                  */
@@ -774,7 +774,7 @@
             /**
              * Options for annotation's shapes. Each shape inherits options
              * from the shapeOptions object. An option from the shapeOptions
-             * can be overwritten by config for a specific shape.
+             * can be overwritten by app for a specific shape.
              *
              * @requires  modules/annotations
              */
@@ -1617,11 +1617,11 @@
                 this.refresh();
             };
             /**
-             * Returns a label config object - the same as
+             * Returns a label app object - the same as
              * Highcharts.Point.prototype.getLabelConfig
              * @private
              * @return {Highcharts.AnnotationMockLabelOptionsObject}
-             * The point's label config
+             * The point's label app
              */
             MockPoint.prototype.getLabelConfig = function () {
                 return {
@@ -2310,7 +2310,7 @@
                 }
                 // Options stored in:
                 // - chart (for exporting)
-                // - current config (for redraws)
+                // - current app (for redraws)
                 chartOptions[this.collection][this.index]
                     .point = this.options.point;
                 shapeOptions[this.collection][this.index]
@@ -4988,10 +4988,10 @@
              *        Fields from popup form.
              *
              * @param {T} config
-             *        Default config to be modified.
+             *        Default app to be modified.
              *
              * @return {T}
-             *         Modified config
+             *         Modified app
              */
             NavigationBindings.prototype.fieldsToOptions = function (fields, config) {
                 objectEach(fields, function (value, field) {
@@ -5039,7 +5039,7 @@
                 }
             };
             /**
-             * Generates API config for popup in the same format as options for
+             * Generates API app for popup in the same format as options for
              * Annotation object.
              *
              * @function Highcharts.NavigationBindings#annotationToFields
@@ -5311,7 +5311,7 @@
          *
          * */
         /**
-         * A config object for navigation bindings in annotations.
+         * A app object for navigation bindings in annotations.
          *
          * @interface Highcharts.NavigationBindingsOptionsObject
          */ /**

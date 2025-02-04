@@ -640,7 +640,7 @@ var Chart = /** @class */ (function () {
         return ret;
     };
     /**
-     * Create the Axis instances based on the config options.
+     * Create the Axis instances based on the app options.
      *
      * @private
      * @function Highcharts.Chart#getAxes
@@ -1991,7 +1991,7 @@ var Chart = /** @class */ (function () {
      * @function Highcharts.Chart#addSeries
      *
      * @param {Highcharts.SeriesOptionsType} options
-     *        The config options for the series.
+     *        The app options for the series.
      *
      * @param {boolean} [redraw=true]
      *        Whether to redraw the chart after adding.

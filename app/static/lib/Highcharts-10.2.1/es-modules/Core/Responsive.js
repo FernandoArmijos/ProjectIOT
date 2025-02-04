@@ -90,7 +90,7 @@ var Responsive;
                             // Item exists in current data (#6347)
                             if (curr[key][i]) {
                                 // If the item is missing from the new data, we
-                                // need to save the whole config structure. Like
+                                // need to save the whole app structure. Like
                                 // when responsively updating from a dual axis
                                 // layout to a single axis and back (#13544).
                                 if (val[i] === void 0) {

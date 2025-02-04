@@ -2283,7 +2283,7 @@ function splineInterp(interp, opts) {
 
 			return _paths;
 
-			//  if FEAT_PATHS: false in rollup.config.js
+			//  if FEAT_PATHS: false in rollup.app.js
 			//	u.ctx.save();
 			//	u.ctx.beginPath();
 			//	u.ctx.rect(u.bbox.left, u.bbox.top, u.bbox.width, u.bbox.height);
@@ -3163,7 +3163,7 @@ function uPlot(opts, data, then) {
 				isArr(av) && !isArr(av[0]) ? fnOrSelf(av) :
 				// temporal
 				isTime ? (
-					// config array of fmtDate string tpls
+					// app array of fmtDate string tpls
 					isArr(av) ?
 						timeAxisVals(_tzDate, timeAxisStamps(av, _fmtDate)) :
 					// fmtDate string tpl

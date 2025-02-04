@@ -4044,7 +4044,7 @@
                      *   `'flap'`, but prevents skewing the labels (X and Y scaling are
                      *   still present).
                      *
-                     * - `undefined`: Will use the config from `labels.position3d`
+                     * - `undefined`: Will use the app from `labels.position3d`
                      *
                      * @sample highcharts/3d/skewed-labels/
                      *         Skewed labels
@@ -4063,7 +4063,7 @@
                      *
                      * The final appearance depends heavily on `title.position3d`.
                      *
-                     * A `null` value will use the config from `labels.skew3d`.
+                     * A `null` value will use the app from `labels.skew3d`.
                      *
                      * @sample highcharts/3d/skewed-labels/
                      *         Skewed labels

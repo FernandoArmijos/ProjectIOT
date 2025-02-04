@@ -1222,7 +1222,7 @@ var Data = /** @class */ (function () {
     };
     /**
      * Get the parsed data in a form that we can apply directly to the
-     * `series.data` config. Array positions can be mapped using the
+     * `series.data` app. Array positions can be mapped using the
      * `series.keys` option.
      *
      * @example

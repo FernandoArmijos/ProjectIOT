@@ -5457,8 +5457,8 @@
                 verticalAlign: 'bottom'
             },
             /**
-             * The plotOptions is a wrapper object for config objects for each series
-             * type. The config objects for each series can also be overridden for
+             * The plotOptions is a wrapper object for app objects for each series
+             * type. The app objects for each series can also be overridden for
              * each series item as given in the series array.
              *
              * Configuration options for the series are given in three levels. Options
@@ -9710,7 +9710,7 @@
                             key.push(val);
                         });
                         key = key.join(',');
-                        // Check if a gradient object with the same config object is
+                        // Check if a gradient object with the same app object is
                         // created within this renderer
                         if (gradients[key]) {
                             id = gradients[key].attr('id');
@@ -19153,7 +19153,7 @@
                 fireEvent(this, 'afterSetOptions', { userOptions: userOptions });
             };
             /**
-             * The default label formatter. The context is a special config object for
+             * The default label formatter. The context is a special app object for
              * the label. In apps, use the
              * [labels.formatter](https://api.highcharts.com/highcharts/xAxis.labels.formatter)
              * instead, except when a modification is needed.
@@ -25619,13 +25619,13 @@
                  * point configuration array, or as a `name` property in the configuration:
                  *
                  * @example
-                 * // Array config
+                 * // Array app
                  * data: [
                  *     ['John', 1],
                  *     ['Jane', 2]
                  * ]
                  *
-                 * // Object config
+                 * // Object app
                  * data: [{
                  *        name: 'John',
                  *        y: 1
@@ -26091,7 +26091,7 @@
              * Transform number or array configs into objects. Also called for object
              * configs. Used internally to unify the different configuration formats for
              * points. For example, a simple number `10` in a line series will be
-             * transformed to `{ y: 10 }`, and an array config like `[1, 10]` in a
+             * transformed to `{ y: 10 }`, and an array app like `[1, 10]` in a
              * scatter series will be transformed to `{ x: 1, y: 10 }`.
              *
              * @deprecated
@@ -26340,7 +26340,7 @@
                     // record changes in the parallel arrays
                     i = point.index;
                     series.updateParallelArrays(point, i);
-                    // Record the options to options.data. If the old or the new config
+                    // Record the options to options.data. If the old or the new app
                     // is an object, use point options, otherwise use raw options
                     // (#4701, #4916).
                     seriesOptions.data[i] = (isObject(seriesOptions.data[i], true) ||
@@ -30925,7 +30925,7 @@
                 return ret;
             };
             /**
-             * Create the Axis instances based on the config options.
+             * Create the Axis instances based on the app options.
              *
              * @private
              * @function Highcharts.Chart#getAxes
@@ -32369,7 +32369,7 @@
              * @function Highcharts.Chart#addSeries
              *
              * @param {Highcharts.SeriesOptionsType} options
-             *        The config options for the series.
+             *        The app options for the series.
              *
              * @param {boolean} [redraw=true]
              *        Whether to redraw the chart after adding.
@@ -35853,7 +35853,7 @@
          *
          * The data in the series is stored in various arrays.
          *
-         * - First, `series.options.data` contains all the original config options for
+         * - First, `series.options.data` contains all the original app options for
          *   each point whether added by options or methods like `series.addPoint`.
          *
          * - Next, `series.data` contains those values converted to points, but in case
@@ -47674,7 +47674,7 @@
                                     // Item exists in current data (#6347)
                                     if (curr[key][i]) {
                                         // If the item is missing from the new data, we
-                                        // need to save the whole config structure. Like
+                                        // need to save the whole app structure. Like
                                         // when responsively updating from a dual axis
                                         // layout to a single axis and back (#13544).
                                         if (val[i] === void 0) {

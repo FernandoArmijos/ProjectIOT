@@ -790,7 +790,7 @@ if (!svg) {
          * @function Highcharts.VMLRenderer#color<T>
          *
          * @param {T} color
-         * The color or config object
+         * The color or app object
          *
          * @return {T}
          * Processed color

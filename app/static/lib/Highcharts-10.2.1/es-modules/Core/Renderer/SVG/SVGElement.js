@@ -670,7 +670,7 @@ var SVGElement = /** @class */ (function () {
                     key.push(val);
                 });
                 key = key.join(',');
-                // Check if a gradient object with the same config object is
+                // Check if a gradient object with the same app object is
                 // created within this renderer
                 if (gradients[key]) {
                     id = gradients[key].attr('id');

@@ -56,7 +56,7 @@ var addEvent = U.addEvent, arrayMax = U.arrayMax, arrayMin = U.arrayMin, clamp =
  *
  * The data in the series is stored in various arrays.
  *
- * - First, `series.options.data` contains all the original config options for
+ * - First, `series.options.data` contains all the original app options for
  *   each point whether added by options or methods like `series.addPoint`.
  *
  * - Next, `series.data` contains those values converted to points, but in case

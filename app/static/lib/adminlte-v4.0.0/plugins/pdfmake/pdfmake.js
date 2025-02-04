@@ -7033,7 +7033,7 @@ __webpack_require__(561);
        *     var cipher = CryptoJS.algo.AES.create(CryptoJS.algo.AES._ENC_XFORM_MODE, keyWordArray, { iv: ivWordArray });
        */
       init: function init(xformMode, key, cfg) {
-        // Apply config defaults
+        // Apply app defaults
         this.cfg = this.cfg.extend(cfg); // Store transform mode and key
 
         this._xformMode = xformMode;
@@ -7588,7 +7588,7 @@ __webpack_require__(561);
        *     var ciphertextParams = CryptoJS.lib.SerializableCipher.encrypt(CryptoJS.algo.AES, message, key, { iv: iv, format: CryptoJS.format.OpenSSL });
        */
       encrypt: function encrypt(cipher, message, key, cfg) {
-        // Apply config defaults
+        // Apply app defaults
         cfg = this.cfg.extend(cfg); // Encrypt
 
         var encryptor = cipher.createEncryptor(key, cfg);
@@ -7626,7 +7626,7 @@ __webpack_require__(561);
        *     var plaintext = CryptoJS.lib.SerializableCipher.decrypt(CryptoJS.algo.AES, ciphertextParams, key, { iv: iv, format: CryptoJS.format.OpenSSL });
        */
       decrypt: function decrypt(cipher, ciphertext, key, cfg) {
-        // Apply config defaults
+        // Apply app defaults
         cfg = this.cfg.extend(cfg); // Convert string to CipherParams
 
         ciphertext = this._parse(ciphertext, cfg.format); // Decrypt
@@ -7739,10 +7739,10 @@ __webpack_require__(561);
        *     var ciphertextParams = CryptoJS.lib.PasswordBasedCipher.encrypt(CryptoJS.algo.AES, message, 'password', { format: CryptoJS.format.OpenSSL });
        */
       encrypt: function encrypt(cipher, message, password, cfg) {
-        // Apply config defaults
+        // Apply app defaults
         cfg = this.cfg.extend(cfg); // Derive key and other params
 
-        var derivedParams = cfg.kdf.execute(password, cipher.keySize, cipher.ivSize); // Add IV to config
+        var derivedParams = cfg.kdf.execute(password, cipher.keySize, cipher.ivSize); // Add IV to app
 
         cfg.iv = derivedParams.iv; // Encrypt
 
@@ -7770,12 +7770,12 @@ __webpack_require__(561);
        *     var plaintext = CryptoJS.lib.PasswordBasedCipher.decrypt(CryptoJS.algo.AES, ciphertextParams, 'password', { format: CryptoJS.format.OpenSSL });
        */
       decrypt: function decrypt(cipher, ciphertext, password, cfg) {
-        // Apply config defaults
+        // Apply app defaults
         cfg = this.cfg.extend(cfg); // Convert string to CipherParams
 
         ciphertext = this._parse(ciphertext, cfg.format); // Derive key and other params
 
-        var derivedParams = cfg.kdf.execute(password, cipher.keySize, cipher.ivSize, ciphertext.salt); // Add IV to config
+        var derivedParams = cfg.kdf.execute(password, cipher.keySize, cipher.ivSize, ciphertext.salt); // Add IV to app
 
         cfg.iv = derivedParams.iv; // Decrypt
 
@@ -8516,7 +8516,7 @@ __webpack_require__(561);
        *     var hasher = CryptoJS.algo.SHA256.create();
        */
       init: function init(cfg) {
-        // Apply config defaults
+        // Apply app defaults
         this.cfg = this.cfg.extend(cfg); // Set initial values
 
         this.reset();
@@ -64493,7 +64493,7 @@ var IndicShaper = /*#__PURE__*/function (_DefaultShaper3) {
     plan.addStage({
       local: ['init'],
       global: ['pres', 'abvs', 'blws', 'psts', 'haln', 'dist', 'abvm', 'blwm', 'calt', 'clig']
-    }); // Setup the indic config for the selected script
+    }); // Setup the indic app for the selected script
 
     plan.unicodeScript = fromOpenType(plan.script);
     plan.indicConfig = INDIC_CONFIGS[plan.unicodeScript] || INDIC_CONFIGS.Default;

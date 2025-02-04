@@ -818,8 +818,8 @@ var defaultOptions = {
         verticalAlign: 'bottom'
     },
     /**
-     * The plotOptions is a wrapper object for config objects for each series
-     * type. The config objects for each series can also be overridden for
+     * The plotOptions is a wrapper object for app objects for each series
+     * type. The app objects for each series can also be overridden for
      * each series item as given in the series array.
      *
      * Configuration options for the series are given in three levels. Options

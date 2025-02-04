@@ -75,7 +75,7 @@ var indicatorsWithVolume = [
  * */
 /**
  * Generates function which will add a flag series using modal in GUI.
- * Method fires an event "showPopup" with config:
+ * Method fires an event "showPopup" with app:
  * `{type, options, callback}`.
  *
  * Example: NavigationBindings.utils.addFlagFromForm('url(...)') - will

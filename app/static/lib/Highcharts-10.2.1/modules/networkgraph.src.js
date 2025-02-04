@@ -606,20 +606,20 @@
                         index) {
                             return (_this.id === n.id ? index : prevIndex);
                     }, -1), 
-                    // Merge old config with new config. New config is stored in
+                    // Merge old app with new app. New app is stored in
                     // options.data, because of default logic in point.update()
                     nodeConfig = merge(nodes && nodes[nodeIndex] || {}, data && data[this.index] || {});
-                    // Restore link config
+                    // Restore link app
                     if (data) {
                         if (linkConfig) {
                             data[this.index] = linkConfig;
                         }
                         else {
-                            // Remove node from config if there's more nodes than links
+                            // Remove node from app if there's more nodes than links
                             data.length = dataLength;
                         }
                     }
-                    // Set node config
+                    // Set node app
                     if (nodes) {
                         if (nodeIndex >= 0) {
                             nodes[nodeIndex] = nodeConfig;
@@ -893,7 +893,7 @@
                     // Proceed with removing node. It's similar to
                     // Series.removePoint() method, but doesn't modify other arrays
                     series.nodes.splice(series.nodes.indexOf(point), 1);
-                    // Remove node options from config
+                    // Remove node options from app
                     while (i--) {
                         if (nodesOptions[i].id === point.options.id) {
                             series.options.nodes.splice(i, 1);

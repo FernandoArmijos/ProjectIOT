@@ -365,8 +365,8 @@ var exporting = {
              * @apioption exporting.buttons.contextButton._titleKey
              */
             /**
-             * A collection of strings pointing to config options for the menu
-             * items. The config options are defined in the
+             * A collection of strings pointing to app options for the menu
+             * items. The app options are defined in the
              * `menuItemDefinitions` option.
              *
              * By default, there is the "View in full screen" and "Print" menu

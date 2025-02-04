@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.forms import model_to_dict
 
-from config.settings import MEDIA_URL, STATIC_URL
+from app.settings import MEDIA_URL, STATIC_URL
 
 class User(AbstractUser):
     image = models.ImageField(upload_to='users/%Y/%m', null=True, blank=True, verbose_name='Imagen')

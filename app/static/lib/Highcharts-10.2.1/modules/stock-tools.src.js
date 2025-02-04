@@ -1163,10 +1163,10 @@
              *        Fields from popup form.
              *
              * @param {T} config
-             *        Default config to be modified.
+             *        Default app to be modified.
              *
              * @return {T}
-             *         Modified config
+             *         Modified app
              */
             NavigationBindings.prototype.fieldsToOptions = function (fields, config) {
                 objectEach(fields, function (value, field) {
@@ -1214,7 +1214,7 @@
                 }
             };
             /**
-             * Generates API config for popup in the same format as options for
+             * Generates API app for popup in the same format as options for
              * Annotation object.
              *
              * @function Highcharts.NavigationBindings#annotationToFields
@@ -1486,7 +1486,7 @@
          *
          * */
         /**
-         * A config object for navigation bindings in annotations.
+         * A app object for navigation bindings in annotations.
          *
          * @interface Highcharts.NavigationBindingsOptionsObject
          */ /**
@@ -1592,7 +1592,7 @@
          * */
         /**
          * Generates function which will add a flag series using modal in GUI.
-         * Method fires an event "showPopup" with config:
+         * Method fires an event "showPopup" with app:
          * `{type, options, callback}`.
          *
          * Example: NavigationBindings.utils.addFlagFromForm('url(...)') - will
@@ -4182,7 +4182,7 @@
                      */
                     toolbarClassName: 'stocktools-toolbar',
                     /**
-                     * A collection of strings pointing to config options for the
+                     * A collection of strings pointing to app options for the
                      * toolbar items. Each name refers to a unique key from the
                      * definitions object.
                      *
@@ -4241,7 +4241,7 @@
                         },
                         simpleShapes: {
                             /**
-                             * A collection of strings pointing to config options for
+                             * A collection of strings pointing to app options for
                              * the items.
                              *
                              * @type {Array}
@@ -4298,7 +4298,7 @@
                         },
                         flags: {
                             /**
-                             * A collection of strings pointing to config options for
+                             * A collection of strings pointing to app options for
                              * the items.
                              *
                              * @type {Array}
@@ -4353,7 +4353,7 @@
                         },
                         lines: {
                             /**
-                             * A collection of strings pointing to config options for
+                             * A collection of strings pointing to app options for
                              * the items.
                              *
                              * @type {Array}
@@ -4445,7 +4445,7 @@
                         },
                         crookedLines: {
                             /**
-                             * A collection of strings pointing to config options for
+                             * A collection of strings pointing to app options for
                              * the items.
                              *
                              * @type {Array}
@@ -4498,7 +4498,7 @@
                         },
                         verticalLabels: {
                             /**
-                             * A collection of strings pointing to config options for
+                             * A collection of strings pointing to app options for
                              * the items.
                              *
                              * @type {Array}
@@ -4540,7 +4540,7 @@
                         },
                         advanced: {
                             /**
-                             * A collection of strings pointing to config options for
+                             * A collection of strings pointing to app options for
                              * the items.
                              *
                              * @type {Array}
@@ -4602,7 +4602,7 @@
                         },
                         measure: {
                             /**
-                             * A collection of strings pointing to config options for
+                             * A collection of strings pointing to app options for
                              * the items.
                              *
                              * @type {Array}
@@ -4668,7 +4668,7 @@
                         },
                         zoomChange: {
                             /**
-                             * A collection of strings pointing to config options for
+                             * A collection of strings pointing to app options for
                              * the items.
                              *
                              * @type {Array}
@@ -4710,7 +4710,7 @@
                         },
                         typeChange: {
                             /**
-                             * A collection of strings pointing to config options for
+                             * A collection of strings pointing to app options for
                              * the items.
                              *
                              * @type {Array}

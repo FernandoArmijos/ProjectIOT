@@ -21,7 +21,7 @@ var addEvent = U.addEvent, merge = U.merge, wrap = U.wrap;
  *
  * @sample gantt/current-date-indicator/demo
  *         Current date indicator enabled
- * @sample gantt/current-date-indicator/object-config
+ * @sample gantt/current-date-indicator/object-app
  *         Current date indicator with custom options
  *
  * @declare   Highcharts.CurrentDateIndicatorOptions

@@ -232,7 +232,7 @@ var NetworkgraphPoint = /** @class */ (function (_super) {
             // Proceed with removing node. It's similar to
             // Series.removePoint() method, but doesn't modify other arrays
             series.nodes.splice(series.nodes.indexOf(point), 1);
-            // Remove node options from config
+            // Remove node options from app
             while (i--) {
                 if (nodesOptions[i].id === point.options.id) {
                     series.options.nodes.splice(i, 1);

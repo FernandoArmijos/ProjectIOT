@@ -563,7 +563,7 @@ var stockTools = {
          */
         toolbarClassName: 'stocktools-toolbar',
         /**
-         * A collection of strings pointing to config options for the
+         * A collection of strings pointing to app options for the
          * toolbar items. Each name refers to a unique key from the
          * definitions object.
          *
@@ -622,7 +622,7 @@ var stockTools = {
             },
             simpleShapes: {
                 /**
-                 * A collection of strings pointing to config options for
+                 * A collection of strings pointing to app options for
                  * the items.
                  *
                  * @type {Array}
@@ -679,7 +679,7 @@ var stockTools = {
             },
             flags: {
                 /**
-                 * A collection of strings pointing to config options for
+                 * A collection of strings pointing to app options for
                  * the items.
                  *
                  * @type {Array}
@@ -734,7 +734,7 @@ var stockTools = {
             },
             lines: {
                 /**
-                 * A collection of strings pointing to config options for
+                 * A collection of strings pointing to app options for
                  * the items.
                  *
                  * @type {Array}
@@ -826,7 +826,7 @@ var stockTools = {
             },
             crookedLines: {
                 /**
-                 * A collection of strings pointing to config options for
+                 * A collection of strings pointing to app options for
                  * the items.
                  *
                  * @type {Array}
@@ -879,7 +879,7 @@ var stockTools = {
             },
             verticalLabels: {
                 /**
-                 * A collection of strings pointing to config options for
+                 * A collection of strings pointing to app options for
                  * the items.
                  *
                  * @type {Array}
@@ -921,7 +921,7 @@ var stockTools = {
             },
             advanced: {
                 /**
-                 * A collection of strings pointing to config options for
+                 * A collection of strings pointing to app options for
                  * the items.
                  *
                  * @type {Array}
@@ -983,7 +983,7 @@ var stockTools = {
             },
             measure: {
                 /**
-                 * A collection of strings pointing to config options for
+                 * A collection of strings pointing to app options for
                  * the items.
                  *
                  * @type {Array}
@@ -1049,7 +1049,7 @@ var stockTools = {
             },
             zoomChange: {
                 /**
-                 * A collection of strings pointing to config options for
+                 * A collection of strings pointing to app options for
                  * the items.
                  *
                  * @type {Array}
@@ -1091,7 +1091,7 @@ var stockTools = {
             },
             typeChange: {
                 /**
-                 * A collection of strings pointing to config options for
+                 * A collection of strings pointing to app options for
                  * the items.
                  *
                  * @type {Array}

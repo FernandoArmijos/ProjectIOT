@@ -76,7 +76,7 @@ var defaultOptions = {
  * @sample      maps/mapview/insets-extended
  *              Extending the embedded insets
  * @sample      maps/mapview/insets-complete
- *              Complete inset config from scratch
+ *              Complete inset app from scratch
  *
  * @extends     mapView.insetOptions
  * @type        Array<Object>
@@ -90,7 +90,7 @@ var defaultOptions = {
  * outline of the `field` in order to make pointer positioning consistent.
  *
  * @sample    maps/mapview/insets-complete
- *            Complete inset config with `borderPath`
+ *            Complete inset app with `borderPath`
  *
  * @product   highmaps
  * @type      {Object|undefined}
@@ -116,7 +116,7 @@ var defaultOptions = {
  * inset.
  *
  * @sample    maps/mapview/insets-complete
- *            Complete inset config with `geoBounds`
+ *            Complete inset app with `geoBounds`
  *
  * @product   highmaps
  * @type      {Object}

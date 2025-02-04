@@ -89,7 +89,7 @@ var Buttons = function( dt, config )
 		};
 	}
 
-	// If there is no config set it to an empty object
+	// If there is no app set it to an empty object
 	if ( typeof( config ) === 'undefined' ) {
 		config = {};	
 	}
@@ -1067,7 +1067,7 @@ $.extend( Buttons.prototype, {
 
 	/**
 	 * Resolve a button configuration
-	 * @param  {string|function|object} conf Button config to resolve
+	 * @param  {string|function|object} conf Button app to resolve
 	 * @return {object} Button configuration
 	 * @private
 	 */

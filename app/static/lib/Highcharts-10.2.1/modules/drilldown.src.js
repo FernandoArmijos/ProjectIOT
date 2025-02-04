@@ -1589,7 +1589,7 @@
                 });
             }
             // We have a reset zoom button. Hide it and detatch it from the chart. It
-            // is preserved to the layer config above.
+            // is preserved to the layer app above.
             if (this.resetZoomButton) {
                 this.resetZoomButton.hide();
                 delete this.resetZoomButton;

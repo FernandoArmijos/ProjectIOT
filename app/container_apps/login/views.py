@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
-from config import settings
+from app import settings
 
 # Create your views here.
 class LoginFormView(LoginView):

@@ -205,11 +205,11 @@ var MockPoint = /** @class */ (function () {
         this.refresh();
     };
     /**
-     * Returns a label config object - the same as
+     * Returns a label app object - the same as
      * Highcharts.Point.prototype.getLabelConfig
      * @private
      * @return {Highcharts.AnnotationMockLabelOptionsObject}
-     * The point's label config
+     * The point's label app
      */
     MockPoint.prototype.getLabelConfig = function () {
         return {

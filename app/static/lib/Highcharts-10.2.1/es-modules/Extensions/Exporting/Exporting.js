@@ -1150,7 +1150,7 @@ var Exporting;
  * */
 defaultOptions.exporting = merge(ExportingDefaults.exporting, defaultOptions.exporting);
 defaultOptions.lang = merge(ExportingDefaults.lang, defaultOptions.lang);
-// Buttons and menus are collected in a separate config option set called
+// Buttons and menus are collected in a separate app option set called
 // 'navigation'. This can be extended later to add control buttons like
 // zoom and pan right click menus.
 /**

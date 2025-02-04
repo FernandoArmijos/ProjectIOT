@@ -370,7 +370,7 @@ var Controllable = /** @class */ (function () {
         }
         // Options stored in:
         // - chart (for exporting)
-        // - current config (for redraws)
+        // - current app (for redraws)
         chartOptions[this.collection][this.index]
             .point = this.options.point;
         shapeOptions[this.collection][this.index]

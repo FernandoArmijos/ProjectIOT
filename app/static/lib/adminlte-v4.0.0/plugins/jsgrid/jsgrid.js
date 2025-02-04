@@ -1760,7 +1760,7 @@
             if($.isPlainObject(rule))
                 rule = $.extend({}, rule);
             else
-                throw Error("wrong validation config specified");
+                throw Error("wrong validation app specified");
 
             if($.isFunction(rule.validator))
                 return rule;

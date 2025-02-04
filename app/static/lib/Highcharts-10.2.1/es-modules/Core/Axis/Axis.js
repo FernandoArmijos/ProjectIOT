@@ -352,7 +352,7 @@ var Axis = /** @class */ (function () {
         fireEvent(this, 'afterSetOptions', { userOptions: userOptions });
     };
     /**
-     * The default label formatter. The context is a special config object for
+     * The default label formatter. The context is a special app object for
      * the label. In apps, use the
      * [labels.formatter](https://api.highcharts.com/highcharts/xAxis.labels.formatter)
      * instead, except when a modification is needed.

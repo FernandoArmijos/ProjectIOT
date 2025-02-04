@@ -482,10 +482,10 @@ var NavigationBindings = /** @class */ (function () {
      *        Fields from popup form.
      *
      * @param {T} config
-     *        Default config to be modified.
+     *        Default app to be modified.
      *
      * @return {T}
-     *         Modified config
+     *         Modified app
      */
     NavigationBindings.prototype.fieldsToOptions = function (fields, config) {
         objectEach(fields, function (value, field) {
@@ -531,7 +531,7 @@ var NavigationBindings = /** @class */ (function () {
         }
     };
     /**
-     * Generates API config for popup in the same format as options for
+     * Generates API app for popup in the same format as options for
      * Annotation object.
      *
      * @function Highcharts.NavigationBindings#annotationToFields
@@ -793,7 +793,7 @@ export default NavigationBindings;
  *
  * */
 /**
- * A config object for navigation bindings in annotations.
+ * A app object for navigation bindings in annotations.
  *
  * @interface Highcharts.NavigationBindingsOptionsObject
  */ /**

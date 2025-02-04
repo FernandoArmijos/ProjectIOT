@@ -63,13 +63,13 @@ var Point = /** @class */ (function () {
          * point configuration array, or as a `name` property in the configuration:
          *
          * @example
-         * // Array config
+         * // Array app
          * data: [
          *     ['John', 1],
          *     ['Jane', 2]
          * ]
          *
-         * // Object config
+         * // Object app
          * data: [{
          *        name: 'John',
          *        y: 1
@@ -514,7 +514,7 @@ var Point = /** @class */ (function () {
      * Transform number or array configs into objects. Also called for object
      * configs. Used internally to unify the different configuration formats for
      * points. For example, a simple number `10` in a line series will be
-     * transformed to `{ y: 10 }`, and an array config like `[1, 10]` in a
+     * transformed to `{ y: 10 }`, and an array app like `[1, 10]` in a
      * scatter series will be transformed to `{ x: 1, y: 10 }`.
      *
      * @deprecated
@@ -748,7 +748,7 @@ var Point = /** @class */ (function () {
             // record changes in the parallel arrays
             i = point.index;
             series.updateParallelArrays(point, i);
-            // Record the options to options.data. If the old or the new config
+            // Record the options to options.data. If the old or the new app
             // is an object, use point options, otherwise use raw options
             // (#4701, #4916).
             seriesOptions.data[i] = (isObject(seriesOptions.data[i], true) ||

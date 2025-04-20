@@ -60,32 +60,45 @@ var chart_temperatures = Highcharts.chart('container_chart_temperatures', {
             }).join('<br>');
         }
     },
+    exporting: {
+        enabled: true,
+        fallbackToExportServer: true, // Intenta el servidor si falla el cliente
+        menuItems: [
+            'viewFullscreen',
+            'printChart',
+            'downloadPDF',
+            'downloadCSV',
+            'downloadXLS',
+            'viewData'
+        ]
+    },
     colors: ['#007bff', '#dc3545'],
     series: []
 });
 
 // Obtener datos del gráfico mediante AJAX
-function get_chart_data_temperatures() {
+function get_chart_data_temperatures(dataRange) {
     $.ajax({
         url: window.location.pathname,  // La URL de la vista
         type: 'POST',
         data: {
-            'action': 'chart_temperatures'  // El tipo de acción que estamos solicitando
+            'action': 'chart_temperatures',  // El tipo de acción que estamos solicitando
+            'data_range': dataRange // Enviar el rango al servidor
         },
         dataType: 'json',
     }).done(function (data) {
         if (!data.hasOwnProperty('error')) {
             console.log("Datos recibidos:", data);
 
-            // Ordenar los datos por fecha (por si no están ordenados)
+            // Ordenar los datos por fecha (ahora depende del rango)
             var sortedData = data.data.sort(function (a, b) {
                 return new Date(a.created_at) - new Date(b.created_at);
             });
 
-            // Obtener los últimos 50 registros
-            var last50Data = sortedData.slice(-50); // Los últimos 50 elementos
+            // No se limita a 50 aquí, el límite se hace en el servidor
+            var chartData = sortedData;
 
-            console.log("Últimos 50 datos:", last50Data);
+            console.log(chartData);
 
             // Ahora puedes usar los datos para crear el gráfico o mostrarlos en una tabla
             // Para el gráfico, puedes agregar la temperatura interna y externa
@@ -93,7 +106,7 @@ function get_chart_data_temperatures() {
             var inner_temp = [];
             var outer_temp = [];
 
-            last50Data.forEach(function (record) {
+            chartData.forEach(function (record) {
                 created_at.push(record.created_at);  // Agregar las fechas
                 inner_temp.push(record.inner_temp);  // Agregar la temperatura interna
                 outer_temp.push(record.outer_temp);  // Agregar la temperatura externa
@@ -102,7 +115,7 @@ function get_chart_data_temperatures() {
             // Actualizar el gráfico con los nuevos datos
             chart_temperatures.xAxis[0].setCategories(created_at);
 
-            if (chart_temperatures.series[0]) {
+            if (chart_temperatures.series && chart_temperatures.series[0]) {
                 chart_temperatures.series[0].setData(inner_temp);
             } else {
                 chart_temperatures.addSeries({
@@ -112,7 +125,7 @@ function get_chart_data_temperatures() {
             }
 
             // Actualizar la serie de humedad externa
-            if (chart_temperatures.series[1]) {
+            if (chart_temperatures.series && chart_temperatures.series[1]) {
                 chart_temperatures.series[1].setData(outer_temp);
             } else {
                 chart_temperatures.addSeries({
@@ -131,8 +144,20 @@ function get_chart_data_temperatures() {
 
 // Ejecutar al cargar la página
 $(function () {
-    get_chart_data_temperatures();
+    // Obtener el valor inicial del select
+    var initialDataRange = $('#data-range-filter').val();
+    get_chart_data_temperatures(initialDataRange); // Cargar datos iniciales
 
-    // Actualizar el gráfico cada 5 segundos (5000 ms)
-    setInterval(get_chart_data_temperatures, 5000);
+    // Evento change del select
+    $('#data-range-filter').change(function () {
+        var selectedRange = $(this).val();
+        get_chart_data_temperatures(selectedRange); // Cargar datos con el nuevo rango
+    });
+
+    // Actualización periódica (opcional, puedes mantenerla o eliminarla)
+    // Si la mantienes, asegúrate de que el servidor maneje el rango en la petición inicial.
+    setInterval(function() {
+        var currentRange = $('#data-range-filter').val(); // Obtener el rango actual
+        get_chart_data_temperatures(currentRange); // Pasar el rango a la función
+    }, 5000);
 });

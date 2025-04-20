@@ -49,7 +49,7 @@ var chart_co2 = Highcharts.chart('container_chart_co2', {
     yAxis: {
         title: {
             useHTML: true,
-                text: 'CO₂ (ppm)'
+            text: 'CO₂ (ppm)'
         }
     },
     tooltip: {
@@ -64,7 +64,7 @@ var chart_co2 = Highcharts.chart('container_chart_co2', {
             var date = new Date(this.x);  // Usar la propiedad `x` que es la fecha
             var formattedDate = Highcharts.dateFormat('%Y-%m-%d %H:%M', date); // Año-Mes-Día Hora:Minuto
             return '<b>' + formattedDate + '</b><br>' + this.points.map(function (point) {
-                return point.series.name + ': ' + point.y.toFixed(1) + '%';
+                return point.series.name + ': ' + point.y.toFixed(1) + 'ppm';
             }).join('<br>');
         }
     },
@@ -73,12 +73,13 @@ var chart_co2 = Highcharts.chart('container_chart_co2', {
 });
 
 // Obtener datos del gráfico mediante AJAX
-function get_chart_data_co2() {
+function get_chart_data_co2(dataRange) {
     $.ajax({
         url: window.location.pathname,  // La URL de la vista
         type: 'POST',
         data: {
-            'action': 'chart_co2'  // El tipo de acción que estamos solicitando
+            'action': 'chart_co2',  // El tipo de acción que estamos solicitando
+            'data_range': dataRange // Enviar el rango al servidor
         },
         dataType: 'json',
     }).done(function (data) {
@@ -90,23 +91,22 @@ function get_chart_data_co2() {
                 return new Date(a.created_at) - new Date(b.created_at);
             });
 
-            // Obtener los últimos 50 registros
-            var last50Data = sortedData.slice(-50); // Los últimos 50 elementos
+            // No se limita a 50 aquí, el límite se hace en el servidor
+            var chartData = sortedData;
 
-            console.log("Últimos 50 datos:", last50Data);
             // Ahora puedes usar los datos para crear el gráfico o mostrarlos en una tabla
             // Para el gráfico, puedes agregar la humedad interna y externa
             var created_at = [];
             var co2 = [];
 
-            last50Data.forEach(function (record) {
+            chartData.forEach(function (record) {
                 created_at.push(record.created_at);  // Agregar las fechas
                 co2.push(record.co2);  // Agregar la humedad del suelo
             });
 
             // Actualizar el gráfico con los nuevos datos
             chart_co2.xAxis[0].setCategories(created_at);
-            if (chart_co2.series[0]) {
+            if (chart_co2.series && chart_co2.series[0]) {
                 chart_co2.series[0].setData(co2);
             } else {
                 chart_co2.addSeries({
@@ -125,7 +125,19 @@ function get_chart_data_co2() {
 
 // Ejecutar al cargar la página
 $(function () {
-    get_chart_data_co2();
-    // Actualizar el gráfico cada 5 segundos (5000 ms)
-    setInterval(get_chart_data_co2, 5000);
+    var initialDataRange = $('#data-range-filter').val();
+    get_chart_data_co2(initialDataRange); // Cargar datos iniciales
+
+    // Evento change del select
+    $('#data-range-filter').change(function () {
+        var selectedRange = $(this).val();
+        get_chart_data_co2(selectedRange); // Cargar datos con el nuevo rango
+    });
+
+    // Actualización periódica (opcional, puedes mantenerla o eliminarla)
+    // Si la mantienes, asegúrate de que el servidor maneje el rango en la petición inicial.
+    setInterval(function () {
+        var currentRange = $('#data-range-filter').val(); // Obtener el rango actual
+        get_chart_data_co2(currentRange); // Pasar el rango a la función
+    }, 5000);
 });

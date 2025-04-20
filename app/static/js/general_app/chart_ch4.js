@@ -64,7 +64,7 @@ var chart_ch4 = Highcharts.chart('container_chart_ch4', {
             var date = new Date(this.x);  // Usar la propiedad `x` que es la fecha
             var formattedDate = Highcharts.dateFormat('%Y-%m-%d %H:%M', date); // Año-Mes-Día Hora:Minuto
             return '<b>' + formattedDate + '</b><br>' + this.points.map(function (point) {
-                return point.series.name + ': ' + point.y.toFixed(1) + '%';
+                return point.series.name + ': ' + point.y.toFixed(1) + 'ppm';
             }).join('<br>');
         }
     },
@@ -73,12 +73,13 @@ var chart_ch4 = Highcharts.chart('container_chart_ch4', {
 });
 
 // Obtener datos del gráfico mediante AJAX
-function get_chart_data_ch4() {
+function get_chart_data_ch4(dataRange) {
     $.ajax({
         url: window.location.pathname,  // La URL de la vista
         type: 'POST',
         data: {
-            'action': 'chart_ch4'  // El tipo de acción que estamos solicitando
+            'action': 'chart_ch4',  // El tipo de acción que estamos solicitando
+            'data_range': dataRange
         },
         dataType: 'json',
     }).done(function (data) {
@@ -90,21 +91,19 @@ function get_chart_data_ch4() {
                 return new Date(a.created_at) - new Date(b.created_at);
             });
 
-            // Obtener los últimos 50 registros
-            var last50Data = sortedData.slice(-50); // Los últimos 50 elementos
-
-            console.log("Últimos 50 datos:", last50Data);
+            // No se limita a 50 aquí, el límite se hace en el servidor
+            var chartData = sortedData;
             var created_at = [];
             var ch4 = [];
 
-            last50Data.forEach(function (record) {
+            chartData.forEach(function (record) {
                 created_at.push(record.created_at);  // Agregar las fechas
                 ch4.push(record.ch4);
             });
 
             // Actualizar el gráfico con los nuevos datos
             chart_ch4.xAxis[0].setCategories(created_at);
-            if (chart_ch4.series[0]) {
+            if (chart_ch4.series && chart_ch4.series[0]) {
                 chart_ch4.series[0].setData(ch4);
             } else {
                 chart_ch4.addSeries({
@@ -123,7 +122,19 @@ function get_chart_data_ch4() {
 
 // Ejecutar al cargar la página
 $(function () {
-    get_chart_data_ch4();
-    // Actualizar el gráfico cada 5 segundos (5000 ms)
-    setInterval(get_chart_data_ch4, 5000);
+    var initialDataRange = $('#data-range-filter').val();
+    get_chart_data_ch4(initialDataRange); // Cargar datos iniciales
+
+    // Evento change del select
+    $('#data-range-filter').change(function () {
+        var selectedRange = $(this).val();
+        get_chart_data_ch4(selectedRange); // Cargar datos con el nuevo rango
+    });
+
+    // Actualización periódica (opcional, puedes mantenerla o eliminarla)
+    // Si la mantienes, asegúrate de que el servidor maneje el rango en la petición inicial.
+    setInterval(function () {
+        var currentRange = $('#data-range-filter').val(); // Obtener el rango actual
+        get_chart_data_ch4(currentRange); // Pasar el rango a la función
+    }, 5000);
 });

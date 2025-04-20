@@ -1,0 +1,118 @@
+<!-- Modal -->
+<div class="modal modal-xl fade" id="modal_code" tabindex="-1" aria-labelledby="modal_codeLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header modal-header d-flex justify-content-center">
+                <h1 class="modal-title fs-5" id="modal_codeLabel">Puesta en marcha en un entorno de desarrollo
+                    Django</h1>
+            </div>
+            <div class="modal-body">
+                <main class="app-main">
+                    <!--begin::App Content-->
+                    <div class="app-content">
+                        <!--begin::Container-->
+                        <div class="container-fluid">
+                            <h2 id="stable-release">Requisitos previos</h2>
+                            <p>
+                                <em><strong>Nota Importante</strong>: Necesita completar cada uno de los pasos para que
+                                    el
+                                    proyecto sea levantado correctamente en su entorno de desarrollo.</em>
+                            </p>
+
+                            <h5>1. Tener <a href="https://www.python.org/downloads/" target="_blank">Python 3</a>
+                                instalado:</h5>
+                            <pre
+                                    class="astro-code dark-plus"
+                                    style="background-color: #1e1e1e; color: #d4d4d4; overflow-x: auto"
+                            ><code><span class="line"><span style="color:#DCDCAA">python</span><span
+                                    style="color:#CE9178"> --version</span></span></code></pre>
+
+                            <h5>2. Tener <a href="https://git-scm.com/" target="_blank">Git</a> instalado:</h5>
+                            <pre
+                                    class="astro-code dark-plus"
+                                    style="background-color: #1e1e1e; color: #d4d4d4; overflow-x: auto"
+                            ><code><span class="line"><span style="color:#DCDCAA">git</span><span style="color:#CE9178"> --version</span></span></code></pre>
+
+                            <h5>3. Tener <span class="badge text-bg-secondary">pip</span> y <span
+                                    class="badge text-bg-secondary">venv</span> instalados:</h5>
+                            <p>En la mayoría de instalaciones de Python vienen incluidos.</p>
+
+                            <hr>
+
+                            <h2>Pasos para levantar el proyecto</h2>
+
+                            <h5>1. Clonar el repositorio del proyecto (si está en GitHub):</h5>
+                            <pre
+                                    class="astro-code dark-plus"
+                                    style="background-color: #1e1e1e; color: #d4d4d4; overflow-x: auto"
+                            ><code><span class="line"><span
+                                    style="color:#DCDCAA">git</span> clone https://github.com/FernandoArmijos/ProjectIOT.git</span>
+<span class="line"><span style="color:#DCDCAA">cd</span> tu-repo-ProjectIOT</span>
+</code></pre>
+
+                            <h5>2. Crear y activar entorno virtual:</h5>
+                            <pre
+                                    class="astro-code dark-plus"
+                                    style="background-color: #1e1e1e; color: #d4d4d4; overflow-x: auto"
+                            ><code><span class="line"><span style="color:#DCDCAA">python</span><span
+                                    style="color:#CE9178"> -m venv venv</span></span>
+<span class="line"># En Windows</span>
+<span class="line">venv\Scripts\activate</span>
+<span class="line"># En Linux/macOS</span>
+<span class="line">source venv/bin/activate</span>
+</code></pre>
+
+                            <h5>3. Instalar dependencias:</h5>
+                            <pre
+                                    class="astro-code dark-plus"
+                                    style="background-color: #1e1e1e; color: #d4d4d4; overflow-x: auto"
+                            ><code><span class="line"><span style="color:#DCDCAA">pip</span> install -r requirements.txt</span>
+</code></pre>
+
+                            <h5>4. Migrar la base de datos:</h5>
+                            <pre
+                                    class="astro-code dark-plus"
+                                    style="background-color: #1e1e1e; color: #d4d4d4; overflow-x: auto"
+                            ><code><span class="line"><span style="color:#DCDCAA">python</span><span
+                                    style="color:#CE9178"> manage.py migrate</span></span>
+</code></pre>
+
+                            <h5>5. Crear un superusuario (opcional):</h5>
+                            <pre
+                                    class="astro-code dark-plus"
+                                    style="background-color: #1e1e1e; color: #d4d4d4; overflow-x: auto; padding: 8px 12px; margin: 4px 0 12px 0; font-size: 14px; line-height: 1.4"
+                                    tabindex="0"
+                                    data-language="bash"
+                            ><code><span class="line"><span style="color:#DCDCAA">python</span><span
+                                    style="color:#CE9178"> manage.py createsuperuser</span></span>
+</code></pre>
+
+                            <h5>6. Correr el servidor:</h5>
+                            <pre
+                                    class="astro-code dark-plus"
+                                    style="background-color: #1e1e1e; color: #d4d4d4; overflow-x: auto"
+                            ><code><span class="line"><span style="color:#DCDCAA">python</span><span
+                                    style="color:#CE9178"> manage.py runserver</span></span>
+</code></pre>
+                            <p>Luego de ejecutarlo, acceda desde su navegador a: <strong>http://127.0.0.1:8000/</strong>
+                            </p>
+
+                            <hr>
+
+                            <h5><i class="nav-icon bi bi-fire"></i> Verificar que funcionen:</h5>
+                            <ul>
+                                <li>El panel de administración: <code>/admin/</code></li>
+                                <li>El dashboard o interfaz web</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <!--end::App Content-->
+                </main>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

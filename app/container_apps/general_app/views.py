@@ -16,29 +16,9 @@ class IndexView(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-    def fetch_data(self, fields):
-        """
-        Función para obtener datos dinámicamente de la tabla iot-node-data.
-        """
-        # Construir consulta con los campos necesarios
-        field_names = ', '.join(fields)
-        query = f"""
-            SELECT created_at, {field_names}
-            FROM "iot-node-data"
-            ORDER BY created_at
-        """
-        with connection.cursor() as cursor:
-            cursor.execute(query)
-            rows = cursor.fetchall()
-
-        # Convertir los resultados en un formato adecuado
-        return [
-            dict(zip(['created_at'] + fields, row))
-            for row in rows
-        ]
-
     def post(self, request, *args, **kwargs):
         action = request.POST.get('action', '')
+        data_range = request.POST.get('data_range', 'last_50_data')  # Obtener el rango, default últimos 50
 
         # Mapeo de acciones a campos
         actions_map = {
@@ -53,10 +33,66 @@ class IndexView(TemplateView):
         if action in actions_map:
             # Obtener los datos según la acción
             fields = actions_map[action]
-            data = self.fetch_data(fields)
+            data = self.fetch_data(fields, data_range)  # Pasar el rango a fetch_data
             return JsonResponse({'data': data})
 
         return JsonResponse({'error': 'Acción no válida'}, status=400)
+
+    def fetch_data(self, fields, data_range):  # Recibir el rango
+        field_names = ', '.join(fields)
+        query = f"""
+            SELECT created_at, {field_names}
+            FROM "iot-node-data"
+            ORDER BY created_at
+        """
+
+        if data_range == 'last_50_data':
+            query = f"""
+                SELECT created_at, {field_names}
+                FROM "iot-node-data"
+                ORDER BY created_at DESC
+                LIMIT 50
+            """
+        elif data_range == 'last_24_hours':
+            query = f"""
+                SELECT created_at, {field_names}
+                FROM "iot-node-data"
+                WHERE created_at >= date_trunc('day', NOW())  -- Trunca la hora a las 00:00:00
+                ORDER BY created_at
+            """
+        elif data_range == 'last_7_days':
+            query = f"""
+                SELECT created_at, {field_names}
+                FROM "iot-node-data"
+                WHERE created_at >= date_trunc('day', NOW()) - INTERVAL '7 day' -- Trunca la hora a las 00:00:00 y resta 7 días
+                ORDER BY created_at
+            """
+        elif data_range == 'last_15_days':
+            query = f"""
+                SELECT created_at, {field_names}
+                FROM "iot-node-data"
+                WHERE created_at >= date_trunc('day', NOW()) - INTERVAL '15 day' -- Trunca la hora a las 00:00:00 y resta 15 días
+                ORDER BY created_at
+            """
+        elif data_range == 'last_30_days':
+            query = f"""
+                SELECT created_at, {field_names}
+                FROM "iot-node-data"
+                WHERE created_at >= date_trunc('day', NOW()) - INTERVAL '30 day' -- Trunca la hora a las 00:00:00 y resta 30 días
+                ORDER BY created_at
+            """
+            print(query)
+
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+            rows = cursor.fetchall()
+
+        print(rows)  # Imprime los datos devueltos
+
+        return [
+            dict(zip(['created_at'] + fields, row))
+            for row in rows
+        ]
 
     def get_latest_data(request):  # Nuevo metodo para AJAX
         query = """
@@ -102,4 +138,3 @@ class IndexView(TemplateView):
                 context[f'last_{field}'] = None
 
         return context
-

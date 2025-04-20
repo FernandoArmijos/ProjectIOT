@@ -6,9 +6,14 @@
                     class="bi bi-list"></i> </a></li>
             <li class="nav-item d-none d-md-block"><a href="{% url 'general_app:inicio' %}" class="nav-link">Inicio</a>
             </li>
-            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Contacto</a></li>
+            <li class="nav-item d-none d-md-block">
+                <a type="button" class="nav-link" data-bs-toggle="toast"
+                        data-bs-target="toastDefault">
+                    Contacto
+                </a>
+            </li>
         </ul> <!--end::Start Navbar Links--> <!--begin::End Navbar Links-->
-        <ul class="navbar-nav ms-auto"> <!--begin::Navbar Search-->
+        <ul class=" navbar-nav ms-auto"> <!--begin::Navbar Search-->
             <li class="nav-item"><a class="nav-link" href="#" data-lte-toggle="fullscreen"> <i data-lte-icon="maximize"
                                                                                                class="bi bi-arrows-fullscreen"></i>
                 <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none;"></i> </a></li>
@@ -59,3 +64,38 @@
         </ul> <!--end::End Navbar Links-->
     </div> <!--end::Container-->
 </nav> <!--end::Header--> <!--begin::Sidebar-->
+
+
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="toastDefault" class="toast toast-primary" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="fas fa-user-alt me-2"></i>
+            <strong class="me-auto">Contacto</strong> <small>support</small>
+            <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="toast"
+                    aria-label="Close"
+            ></button>
+        </div>
+        <div class="toast-body">
+            Leonel Fernando Armijos Piedra <br>
+            leonel.f.armijos@unl.edu.ec <br>
+            +593 96 990 1270
+        </div>
+    </div>
+</div>
+
+<script>
+    const toastTriggerList = document.querySelectorAll('[data-bs-toggle="toast"]');
+    toastTriggerList.forEach((btn) => {
+        btn.addEventListener('click', (event) => {
+            event.preventDefault();
+            const toastEle = document.getElementById(btn.getAttribute('data-bs-target'));
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastEle);
+            toastBootstrap.show();
+        });
+    });
+</script>
+
+

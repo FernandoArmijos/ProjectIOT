@@ -65,12 +65,13 @@ var chart_humidity = Highcharts.chart('container_chart_humidity', {
 });
 
 // Obtener datos del gráfico mediante AJAX
-function get_chart_data_humidity() {
+function get_chart_data_humidity(dataRange) {
     $.ajax({
         url: window.location.pathname,  // La URL de la vista
         type: 'POST',
         data: {
-            'action': 'chart_humidity'  // El tipo de acción que estamos solicitando
+            'action': 'chart_humidity',  // El tipo de acción que estamos solicitando
+            'data_range': dataRange // Enviar el rango al servidor
         },
         dataType: 'json',
     }).done(function (data) {
@@ -82,10 +83,8 @@ function get_chart_data_humidity() {
                 return new Date(a.created_at) - new Date(b.created_at);
             });
 
-            // Obtener los últimos 50 registros
-            var last50Data = sortedData.slice(-50); // Los últimos 50 elementos
-
-            console.log("Últimos 50 datos:", last50Data);
+            // No se limita a 50 aquí, el límite se hace en el servidor
+            var chartData = sortedData;
 
             // Ahora puedes usar los datos para crear el gráfico o mostrarlos en una tabla
             // Para el gráfico, puedes agregar la humedad interna y externa
@@ -93,31 +92,17 @@ function get_chart_data_humidity() {
             var inner_hum = [];
             var outer_hum = [];
 
-            last50Data.forEach(function (record) {
+            chartData.forEach(function (record) {
                 created_at.push(record.created_at);  // Agregar las fechas
                 inner_hum.push(record.inner_hum);  // Agregar la humedad interna
                 outer_hum.push(record.outer_hum);  // Agregar la humedad externa
             });
 
-
-            // Actualizar el gráfico con los nuevos datos
-            /*
-            chart_humidity.xAxis[0].setCategories(created_at);
-            chart_humidity.addSeries({
-                name: 'Humedad Interna',
-                data: inner_hum
-            });
-            chart_humidity.addSeries({
-                name: 'Humedad Externa',
-                data: outer_hum
-            });
-            chart_humidity.redraw(); // Redibujar el gráfico
-             */
             // Actualizar las categorías (fechas) del gráfico
             chart_humidity.xAxis[0].setCategories(created_at);
 
             // Actualizar la serie de humedad interna
-            if (chart_humidity.series[0]) {
+            if (chart_humidity.series && chart_humidity.series[0]) {
                 chart_humidity.series[0].setData(inner_hum);
             } else {
                 chart_humidity.addSeries({
@@ -127,7 +112,7 @@ function get_chart_data_humidity() {
             }
 
             // Actualizar la serie de humedad externa
-            if (chart_humidity.series[1]) {
+            if (chart_humidity.series && chart_humidity.series[1]) {
                 chart_humidity.series[1].setData(outer_hum);
             } else {
                 chart_humidity.addSeries({
@@ -147,8 +132,19 @@ function get_chart_data_humidity() {
 
 // Ejecutar al cargar la página
 $(function () {
-    get_chart_data_humidity();
+    var initialDataRange = $('#data-range-filter').val();
+    get_chart_data_humidity(initialDataRange); // Cargar datos iniciales
 
-    // Actualizar el gráfico cada 5 segundos (5000 ms)
-    setInterval(get_chart_data_humidity, 5000);
+    // Evento change del select
+    $('#data-range-filter').change(function () {
+        var selectedRange = $(this).val();
+        get_chart_data_humidity(selectedRange); // Cargar datos con el nuevo rango
+    });
+
+    // Actualización periódica (opcional, puedes mantenerla o eliminarla)
+    // Si la mantienes, asegúrate de que el servidor maneje el rango en la petición inicial.
+    setInterval(function() {
+        var currentRange = $('#data-range-filter').val(); // Obtener el rango actual
+        get_chart_data_humidity(currentRange); // Pasar el rango a la función
+    }, 5000);
 });

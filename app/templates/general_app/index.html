@@ -5,8 +5,15 @@
         <div class="app-content-header"> <!--begin::Container-->
             <div class="container-fluid"> <!--begin::Row-->
                 <div class="row">
-                    <div class="col-sm-6">
-                        <h3 class="mb-0">Dashboard</h3>
+                    <div class="col-sm-6 d-flex align-items-center">
+                        <h3 class="mb-0 me-3">Dashboard</h3>
+                        <select id="data-range-filter" class="form-select" style="width: auto;">
+                            <option value="last_50_data">Últimos 50 datos</option>
+                            <option value="last_24_hours">Último día</option>
+                            <option value="last_7_days">Últimos 7 días</option>
+                            <option value="last_15_days">Últimos 15 días</option>
+                            <option value="last_30_days">Últimos 30 días</option>
+                        </select>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
@@ -26,12 +33,14 @@
                         <div class="info-box"> <span class="info-box-icon text-bg-danger shadow-sm">
                         <i class="fas fa-thermometer-three-quarters"></i></span>
                             <div class="info-box-content">
-                                <span class="info-box-text">Temperatura</span>
+                                <span class="info-box-text">Temperatura actual</span>
                                 <span class="info-box-number">
-                                    Interna: <comment id="last_inner_temp">{{ last_inner_temp|default:"0" }}</comment><small> °C</small>
+                                    Interna: <comment
+                                        id="last_inner_temp">{{ last_inner_temp|default:"0" }}</comment><small> °C</small>
                                 </span>
                                 <span class="info-box-number">
-                                    Externa: <comment id="last_outer_temp">{{ last_outer_temp|default:"0" }}</comment><small> °C</small>
+                                    Externa: <comment
+                                        id="last_outer_temp">{{ last_outer_temp|default:"0" }}</comment><small> °C</small>
                                 </span>
                             </div> <!-- /.info-box-content -->
                         </div> <!-- /.info-box -->
@@ -57,7 +66,7 @@
                         <div class="info-box"><span class="info-box-icon text-bg-success shadow-sm">
                         <i class="fas fa-hand-holding-water"></i></span>
                             <div class="info-box-content">
-                                <span class="info-box-text">Humedad del Suelo</span>
+                                <span class="info-box-text">Humedad del suelo</span>
                                 <span class="info-box-number">
                                     <comment id="last_soil_hum">{{ last_soil_hum|default:"0" }}</comment>
                                     <small> %</small>
@@ -106,15 +115,7 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header">
-                                <h5 class="card-title">Gráfico de temperatura</h5>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
+                                <h5 class="card-title mt-1">Gráfico de temperatura</h5>
                             </div>
                             <div class="card-body">
                                 <div id="container_chart_temperatures"></div>
@@ -125,14 +126,6 @@
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="card-title">Gráfico de humedad relativa</h5>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
                             </div>
                             <div class="card-body">
                                 <div id="container_chart_humidity"></div>
@@ -145,14 +138,6 @@
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="card-title">Gráfico de humedad del suelo</h5>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
                             </div>
                             <div class="card-body">
                                 <div id="container_chart_humidity_soil"></div>
@@ -162,15 +147,7 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header">
-                                <h5 class="card-title">Gráfico de Dióxido de carbono (CO₂)</h5>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
+                                <h5 class="card-title">Gráfico de dióxido de carbono (CO₂)</h5>
                             </div>
                             <div class="card-body">
                                 <div id="container_chart_co2"></div>
@@ -182,15 +159,7 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header">
-                                <h5 class="card-title">Gráfico del Metano (CH₄)</h5>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
+                                <h5 class="card-title">Gráfico de metano (CH₄)</h5>
                             </div>
                             <div class="card-body">
                                 <div id="container_chart_ch4"></div>
@@ -200,15 +169,8 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header">
-                                <h5 class="card-title">Gráfico de Óxido nitroso (N₂O)</h5>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
+                                <h5 class="card-title">Gráfico de óxido nitroso (N₂O)</h5>
+
                             </div>
                             <div class="card-body">
                                 <div id="container_chart_n2o"></div>
@@ -219,6 +181,9 @@
             </div> <!--end::Container-->
         </div> <!--end::App Content-->
     </main> <!--end::App Main--> <!--begin::Footer-->
+{% endblock %}
+
+{% block javascript_modal %}
 {% endblock %}
 
 {% block javascript %}
@@ -248,10 +213,11 @@
         setInterval(updateData, 5000);
     </script>
 
-    <script src="{% static 'lib/Highcharts-10.2.1/highcharts.js' %}"></script>
-    <script src="{% static 'lib/Highcharts-10.2.1/modules/exporting.js' %}"></script>
-    <script src="{% static 'lib/Highcharts-10.2.1/modules/export-data.js' %}"></script>
-    <script src="{% static 'lib/Highcharts-10.2.1/modules/accessibility.js' %}"></script>
+    <script src="{% static 'lib/Highcharts-12.1.2/code/highcharts.js' %}"></script>
+    <script src="{% static 'lib/Highcharts-12.1.2/code/modules/exporting.js' %}"></script>
+    <script src="{% static 'lib/Highcharts-12.1.2/code/modules/export-data.js' %}"></script>
+    <script src="{% static 'lib/Highcharts-12.1.2/code/modules/accessibility.js' %}"></script>
+    <script src="{% static 'lib/Highcharts-12.1.2/code/modules/offline-exporting.js' %}"></script>
 
     <script src="{% static 'lib/adminlte-v4.0.0/plugins/jquery/jquery.min.js' %}"></script>
 

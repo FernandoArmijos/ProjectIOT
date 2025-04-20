@@ -79,13 +79,13 @@
             <ul class="nav sidebar-menu flex-column" role="menu">
                 <li class="nav-header">DOCUMENTACIÓN</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon bi bi-download"></i>
+                    <a href="#" type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#modal_code">
+                        <i class="nav-icon bi bi-code"></i>
                         <p>Instalación</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="#" onclick="download_user_manual()" class="nav-link">
                         <i class="nav-icon bi bi-download"></i>
                         <p>Manual de Usuario</p>
                     </a>
@@ -100,6 +100,8 @@
     }
 </style>
 
+{% include 'modal_code.html' %}
+
 <script>
     function alert_maintenance() {
         Swal.fire({
@@ -109,4 +111,50 @@
             customClass: 'swal-wide',
         });
     }
+
+    const manualUsuarioURL = '{% static "documents/doc.pdf" %}'; // ruta del archivo pdf
+
+    function download_user_manual() {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: true
+        });
+
+        swalWithBootstrapButtons.fire({
+            html: `<h2 class="mb-0"><i class="fas fa-2x fa-file-pdf text-danger"></i></h2><br><h3>¿Está seguro?</h3>
+            <p class="mb-0">Haz clic en descargar para obtener el manual de usuario en archivo .pdf</p>`,
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, descargar!",
+            cancelButtonText: "Cancelar",
+            customClass: 'swal-wide'
+        }).then((result) => {
+            console.log("Resultado:", result); // para depuración
+            if (result.value) {
+                // Ejecutar descarga
+                const link = document.createElement('a');
+                link.href = manualUsuarioURL;
+                link.download = 'Manual_de_Usuario.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                // Mostrar confirmación
+                Swal.fire({
+                    title: "Descargado!",
+                    text: "Tu archivo se ha descargado correctamente.",
+                    icon: "success",
+                    customClass: 'swal-wide'
+                });
+            }
+        });
+    }
+
+    const modal_code = document.getElementById('modal_code')
+
+    modal_code.addEventListener('shown.bs.modal', () => {
+    })
 </script>

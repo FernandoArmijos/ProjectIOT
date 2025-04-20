@@ -12,7 +12,5 @@ python app/manage.py collectstatic --noinput
 # Apply any outstanding database migrations
 python app/manage.py migrate
 
-gunicorn app.wsgi:application
-
 #Asegúrese de que el script sea ejecutable antes de agregarlo al control de versiones:
 #sudo chmod a+x build.sh

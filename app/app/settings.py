@@ -38,6 +38,8 @@ ALLOWED_HOSTS = ['127.0.0.1',
                  'projectiot-production.up.railway.app'
                  ]
 
+CSRF_TRUSTED_ORIGINS = ['https://projectiot-production.up.railway.app']
+
 # add deploy project
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 

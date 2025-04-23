@@ -53,19 +53,26 @@ var chart_humidity_soil = Highcharts.chart('container_chart_humidity_soil', {
         }
     },
     tooltip: {
-        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f}°C</b></td></tr>',
-        footerFormat: '</table>',
         shared: true,
         useHTML: true,
-        // Formato para el tooltip, para mostrar solo la fecha y la hora sin segundos
         formatter: function () {
-            var date = new Date(this.x);  // Usar la propiedad `x` que es la fecha
-            var formattedDate = Highcharts.dateFormat('%Y-%m-%d %H:%M', date); // Año-Mes-Día Hora:Minuto
-            return '<b>' + formattedDate + '</b><br>' + this.points.map(function (point) {
-                return point.series.name + ': ' + point.y.toFixed(1) + '%';
-            }).join('<br>');
+            var tooltipText = '';
+
+            this.points.forEach(function (point) {
+                tooltipText += '<span style="color:rgba(17,17,17,0.84)">';
+                tooltipText += point.series.name + ': <b>';
+                tooltipText += '<span style="color:rgba(17,17,17,0.84)">';
+                tooltipText += point.y.toFixed(1) + ' %</b></span><br>';
+
+                if (point.point.creation_date_full) {
+                    var formattedDate = Highcharts.dateFormat(
+                        '%d-%m-%Y %H:%M',
+                        new Date(point.point.creation_date_full).getTime()
+                    );
+                    tooltipText += '<span style="color:#455a64;">Fecha: ' + formattedDate + '</span>';
+                }
+            });
+            return tooltipText;
         }
     },
     colors: ['#479393'],
@@ -93,7 +100,6 @@ function get_chart_data_humidity_soil(dataRange) {
 
             // No se limita a 50 aquí, el límite se hace en el servidor
             var chartData = sortedData;
-
             // Ahora puedes usar los datos para crear el gráfico o mostrarlos en una tabla
             // Para el gráfico, puedes agregar la humedad interna y externa
             var created_at = [];
@@ -101,7 +107,10 @@ function get_chart_data_humidity_soil(dataRange) {
 
             chartData.forEach(function (record) {
                 created_at.push(record.created_at);  // Agregar las fechas
-                soil_hum.push(record.soil_hum);  // Agregar la humedad del suelo
+                soil_hum.push({
+                    y: record.soil_hum,
+                    creation_date_full: record.created_at
+                });  // Agregar la humedad del suelo
             });
 
             // Actualizar el gráfico con los nuevos datos

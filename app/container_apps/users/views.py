@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -18,6 +19,9 @@ class UserListView(ListView):
     @method_decorator(csrf_exempt)
     @method_decorator(login_required())
     def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            messages.warning(request, 'Acceso denegado: solo los administradores pueden ver esta página.')
+            return redirect('/')  # Reemplaza con la URL a la que deseas redirigir
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -58,6 +62,9 @@ class UserCreateView(CreateView):
 
     @method_decorator(login_required())
     def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            messages.warning(request, 'Acceso denegado: solo los administradores pueden ver esta página.')
+            return redirect('/')  # Reemplaza con la URL a la que deseas redirigir
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -92,6 +99,9 @@ class UserUpdateView(UpdateView):
     @method_decorator(login_required())
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
+        if not request.user.is_superuser:
+            messages.warning(request, 'Acceso denegado: solo los administradores pueden ver esta página.')
+            return redirect('/')  # Reemplaza con la URL a la que deseas redirigir
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):

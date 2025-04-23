@@ -53,19 +53,26 @@ var chart_co2 = Highcharts.chart('container_chart_co2', {
         }
     },
     tooltip: {
-        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f}°C</b></td></tr>',
-        footerFormat: '</table>',
         shared: true,
         useHTML: true,
-        // Formato para el tooltip, para mostrar solo la fecha y la hora sin segundos
         formatter: function () {
-            var date = new Date(this.x);  // Usar la propiedad `x` que es la fecha
-            var formattedDate = Highcharts.dateFormat('%Y-%m-%d %H:%M', date); // Año-Mes-Día Hora:Minuto
-            return '<b>' + formattedDate + '</b><br>' + this.points.map(function (point) {
-                return point.series.name + ': ' + point.y.toFixed(1) + 'ppm';
-            }).join('<br>');
+            var tooltipText = '';
+
+            this.points.forEach(function (point) {
+                tooltipText += '<span style="color:rgba(17,17,17,0.84)">';
+                tooltipText += point.series.name + ': <b>';
+                tooltipText += '<span style="color:rgba(17,17,17,0.84)">';
+                tooltipText += point.y.toFixed(1) + ' ppm</b></span><br>';
+
+                if (point.point.creation_date_full) {
+                    var formattedDate = Highcharts.dateFormat(
+                        '%d-%m-%Y %H:%M',
+                        new Date(point.point.creation_date_full).getTime()
+                    );
+                    tooltipText += '<span style="color:#455a64;">Fecha: ' + formattedDate + '</span>';
+                }
+            });
+            return tooltipText;
         }
     },
     colors: ['#a63259'],
@@ -93,25 +100,27 @@ function get_chart_data_co2(dataRange) {
 
             // No se limita a 50 aquí, el límite se hace en el servidor
             var chartData = sortedData;
-
             // Ahora puedes usar los datos para crear el gráfico o mostrarlos en una tabla
             // Para el gráfico, puedes agregar la humedad interna y externa
             var created_at = [];
-            var co2 = [];
+            var chartSeriesData = [];
 
             chartData.forEach(function (record) {
                 created_at.push(record.created_at);  // Agregar las fechas
-                co2.push(record.co2);  // Agregar la humedad del suelo
+                chartSeriesData.push({
+                    y: record.co2,
+                    creation_date_full: record.created_at  // <-- Aquí incluyes la fecha para el tooltip
+                });
             });
 
             // Actualizar el gráfico con los nuevos datos
             chart_co2.xAxis[0].setCategories(created_at);
             if (chart_co2.series && chart_co2.series[0]) {
-                chart_co2.series[0].setData(co2);
+                chart_co2.series[0].setData(chartSeriesData);
             } else {
                 chart_co2.addSeries({
                     name: 'Dióxido de Carbono (C0₂)',
-                    data: co2
+                    data: chartSeriesData
                 });
             }
             chart_co2.redraw(); // Redibujar el gráfico

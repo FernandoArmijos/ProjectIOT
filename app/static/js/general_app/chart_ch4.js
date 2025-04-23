@@ -53,22 +53,29 @@ var chart_ch4 = Highcharts.chart('container_chart_ch4', {
         }
     },
     tooltip: {
-        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f}°C</b></td></tr>',
-        footerFormat: '</table>',
         shared: true,
         useHTML: true,
-        // Formato para el tooltip, para mostrar solo la fecha y la hora sin segundos
         formatter: function () {
-            var date = new Date(this.x);  // Usar la propiedad `x` que es la fecha
-            var formattedDate = Highcharts.dateFormat('%Y-%m-%d %H:%M', date); // Año-Mes-Día Hora:Minuto
-            return '<b>' + formattedDate + '</b><br>' + this.points.map(function (point) {
-                return point.series.name + ': ' + point.y.toFixed(1) + 'ppm';
-            }).join('<br>');
+            var tooltipText = '';
+
+            this.points.forEach(function (point) {
+                tooltipText += '<span style="color:rgba(17,17,17,0.84)">';
+                tooltipText += point.series.name + ': <b>';
+                tooltipText += '<span style="color:rgba(17,17,17,0.84)">';
+                tooltipText += point.y.toFixed(1) + ' ppm</b></span><br>';
+
+                if (point.point.creation_date_full) {
+                    var formattedDate = Highcharts.dateFormat(
+                        '%d-%m-%Y %H:%M',
+                        new Date(point.point.creation_date_full).getTime()
+                    );
+                    tooltipText += '<span style="color:#455a64;">Fecha: ' + formattedDate + '</span>';
+                }
+            });
+            return tooltipText;
         }
     },
-    colors: ['#80501b'],
+    colors: ['#27AE60'],
     series: []
 });
 
@@ -94,21 +101,24 @@ function get_chart_data_ch4(dataRange) {
             // No se limita a 50 aquí, el límite se hace en el servidor
             var chartData = sortedData;
             var created_at = [];
-            var ch4 = [];
+            var chartSeriesData = [];
 
             chartData.forEach(function (record) {
-                created_at.push(record.created_at);  // Agregar las fechas
-                ch4.push(record.ch4);
+                created_at.push(record.created_at); // Agregar las fechas
+                chartSeriesData.push({
+                    y: record.ch4,
+                    creation_date_full: record.created_at  // <-- Aquí incluyes la fecha para el tooltip
+                });
             });
 
             // Actualizar el gráfico con los nuevos datos
             chart_ch4.xAxis[0].setCategories(created_at);
             if (chart_ch4.series && chart_ch4.series[0]) {
-                chart_ch4.series[0].setData(ch4);
+                chart_ch4.series[0].setData(chartSeriesData);
             } else {
                 chart_ch4.addSeries({
                     name: 'Metano (CH₄)',
-                    data: ch4
+                    data: chartSeriesData
                 });
             }
             chart_ch4.redraw(); // Redibujar el gráfico

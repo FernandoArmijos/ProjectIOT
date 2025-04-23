@@ -53,22 +53,29 @@ var chart_n2o = Highcharts.chart('container_chart_n2o', {
         }
     },
     tooltip: {
-        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f}°C</b></td></tr>',
-        footerFormat: '</table>',
         shared: true,
         useHTML: true,
-        // Formato para el tooltip, para mostrar solo la fecha y la hora sin segundos
         formatter: function () {
-            var date = new Date(this.x);  // Usar la propiedad `x` que es la fecha
-            var formattedDate = Highcharts.dateFormat('%Y-%m-%d %H:%M', date); // Año-Mes-Día Hora:Minuto
-            return '<b>' + formattedDate + '</b><br>' + this.points.map(function (point) {
-                return point.series.name + ': ' + point.y.toFixed(1) + 'ppm';
-            }).join('<br>');
+            var tooltipText = '';
+
+            this.points.forEach(function (point) {
+                tooltipText += '<span style="color:rgba(17,17,17,0.84)">';
+                tooltipText += point.series.name + ': <b>';
+                tooltipText += '<span style="color:rgba(17,17,17,0.84)">';
+                tooltipText += point.y.toFixed(1) + ' ppm</b></span><br>';
+
+                if (point.point.creation_date_full) {
+                    var formattedDate = Highcharts.dateFormat(
+                        '%d-%m-%Y %H:%M',
+                        new Date(point.point.creation_date_full).getTime()
+                    );
+                    tooltipText += '<span style="color:#455a64;">Fecha: ' + formattedDate + '</span>';
+                }
+            });
+            return tooltipText;
         }
     },
-    colors: ['#232833'],
+    colors: ['#283747'],
     series: []
 });
 
@@ -94,11 +101,14 @@ function get_chart_data_n2o(dataRange) {
             // No se limita a 50 aquí, el límite se hace en el servidor
             var chartData = sortedData;
             var created_at = [];
-            var n2o = [];
+            var chartSeriesData = [];
 
             chartData.forEach(function (record) {
                 created_at.push(record.created_at);  // Agregar las fechas
-                n2o.push(record.n2o);
+                chartSeriesData.push({
+                    y: record.n2o,
+                    creation_date_full: record.created_at  // <-- Aquí incluyes la fecha para el tooltip
+                });
             });
 
             // Actualizar el gráfico con los nuevos datos
@@ -106,11 +116,11 @@ function get_chart_data_n2o(dataRange) {
 
             // Actualizar la serie de humedad interna
             if (chart_n2o.series && chart_n2o.series[0]) {
-                chart_n2o.series[0].setData(n2o);
+                chart_n2o.series[0].setData(chartSeriesData);
             } else {
                 chart_n2o.addSeries({
                     name: 'Óxido nitroso (N₂O)',
-                    data: n2o
+                    data: chartSeriesData
                 });
             }
 

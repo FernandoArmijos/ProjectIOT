@@ -45,19 +45,35 @@ var chart_humidity = Highcharts.chart('container_chart_humidity', {
         }
     },
     tooltip: {
-        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f}°C</b></td></tr>',
-        footerFormat: '</table>',
         shared: true,
         useHTML: true,
-        // Formato para el tooltip, para mostrar solo la fecha y la hora sin segundos
         formatter: function () {
-            var date = new Date(this.x);  // Usar la propiedad `x` que es la fecha
-            var formattedDate = Highcharts.dateFormat('%Y-%m-%d %H:%M', date); // Año-Mes-Día Hora:Minuto
-            return '<b>' + formattedDate + '</b><br>' + this.points.map(function (point) {
-                return point.series.name + ': ' + point.y.toFixed(1) + '%';
-            }).join('<br>');
+            var tooltipText = '';
+
+            var humInterna = this.points.find(p => p.series.name === 'Humedad Interna');
+            var humExterna = this.points.find(p => p.series.name === 'Humedad Externa');
+
+            if (humInterna) {
+                tooltipText += '<span style="color:#1cb83d;">';
+                tooltipText += 'Humedad Interna: <b>' + humInterna.y.toFixed(1) + ' %</b></span><br>';
+            }
+
+            if (humExterna) {
+                tooltipText += '<span style="color:#605d5d;">';
+                tooltipText += 'Humedad Externa: <b>' + humExterna.y.toFixed(1) + ' %</b></span><br>';
+            }
+
+            // Agregar fecha (tomada desde uno de los puntos)
+            const anyPoint = this.points[0];
+            if (anyPoint.point.creation_date_full) {
+                var formattedDate = Highcharts.dateFormat(
+                    '%d-%m-%Y %H:%M',
+                    new Date(anyPoint.point.creation_date_full).getTime()
+                );
+                tooltipText += 'Fecha: ' + formattedDate;
+            }
+
+            return tooltipText;
         }
     },
     colors: ['#1cb83d', '#605d5d'],
@@ -89,13 +105,19 @@ function get_chart_data_humidity(dataRange) {
             // Ahora puedes usar los datos para crear el gráfico o mostrarlos en una tabla
             // Para el gráfico, puedes agregar la humedad interna y externa
             var created_at = [];
-            var inner_hum = [];
-            var outer_hum = [];
+            var inner_hum_data = [];
+            var outer_hum_data = [];
 
             chartData.forEach(function (record) {
                 created_at.push(record.created_at);  // Agregar las fechas
-                inner_hum.push(record.inner_hum);  // Agregar la humedad interna
-                outer_hum.push(record.outer_hum);  // Agregar la humedad externa
+                inner_hum_data.push({
+                    y: record.inner_hum,
+                    creation_date_full: record.created_at
+                });
+                outer_hum_data.push({
+                    y: record.outer_hum,
+                    creation_date_full: record.created_at
+                });
             });
 
             // Actualizar las categorías (fechas) del gráfico
@@ -103,21 +125,21 @@ function get_chart_data_humidity(dataRange) {
 
             // Actualizar la serie de humedad interna
             if (chart_humidity.series && chart_humidity.series[0]) {
-                chart_humidity.series[0].setData(inner_hum);
+                chart_humidity.series[0].setData(inner_hum_data);
             } else {
                 chart_humidity.addSeries({
                     name: 'Humedad Interna',
-                    data: inner_hum
+                    data: inner_hum_data
                 });
             }
 
             // Actualizar la serie de humedad externa
             if (chart_humidity.series && chart_humidity.series[1]) {
-                chart_humidity.series[1].setData(outer_hum);
+                chart_humidity.series[1].setData(outer_hum_data);
             } else {
                 chart_humidity.addSeries({
                     name: 'Humedad Externa',
-                    data: outer_hum
+                    data: outer_hum_data
                 });
             }
 

@@ -45,19 +45,35 @@ var chart_temperatures = Highcharts.chart('container_chart_temperatures', {
         }
     },
     tooltip: {
-        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f}°C</b></td></tr>',
-        footerFormat: '</table>',
         shared: true,
         useHTML: true,
-        // Formato para el tooltip, para mostrar solo la fecha y la hora sin segundos
         formatter: function () {
-            var date = new Date(this.x);  // Usar la propiedad `x` que es la fecha
-            var formattedDate = Highcharts.dateFormat('%Y-%m-%d %H:%M', date); // Año-Mes-Día Hora:Minuto
-            return '<b>' + formattedDate + '</b><br>' + this.points.map(function (point) {
-                return point.series.name + ': ' + point.y.toFixed(1) + '°C';
-            }).join('<br>');
+            var tooltipText = '';
+
+            var tempInterna = this.points.find(p => p.series.name === 'Temperatura Interna');
+            var tempExterna = this.points.find(p => p.series.name === 'Temperatura Externa');
+
+            if (tempInterna) {
+                tooltipText += '<span style="color:#0d6efd;">';
+                tooltipText += 'Temperatura Interna: <b>' + tempInterna.y.toFixed(1) + ' °C</b></span><br>';
+            }
+
+            if (tempExterna) {
+                tooltipText += '<span style="color:#dc3545;">';
+                tooltipText += 'Temperatura Externa: <b>' + tempExterna.y.toFixed(1) + ' °C</b></span><br>';
+            }
+
+            // Agregar fecha (tomada desde uno de los puntos)
+            const anyPoint = this.points[0];
+            if (anyPoint.point.creation_date_full) {
+                var formattedDate = Highcharts.dateFormat(
+                    '%d-%m-%Y %H:%M',
+                    new Date(anyPoint.point.creation_date_full).getTime()
+                );
+                tooltipText += 'Fecha: ' + formattedDate;
+            }
+
+            return tooltipText;
         }
     },
     exporting: {
@@ -103,34 +119,40 @@ function get_chart_data_temperatures(dataRange) {
             // Ahora puedes usar los datos para crear el gráfico o mostrarlos en una tabla
             // Para el gráfico, puedes agregar la temperatura interna y externa
             var created_at = [];
-            var inner_temp = [];
-            var outer_temp = [];
+            var inner_temp_data = [];
+            var outer_temp_data = [];
 
             chartData.forEach(function (record) {
                 created_at.push(record.created_at);  // Agregar las fechas
-                inner_temp.push(record.inner_temp);  // Agregar la temperatura interna
-                outer_temp.push(record.outer_temp);  // Agregar la temperatura externa
+                inner_temp_data.push({
+                    y: record.inner_temp,
+                    creation_date_full: record.created_at
+                });
+                outer_temp_data.push({
+                    y: record.outer_temp,
+                    creation_date_full: record.created_at
+                });
             });
 
             // Actualizar el gráfico con los nuevos datos
             chart_temperatures.xAxis[0].setCategories(created_at);
 
             if (chart_temperatures.series && chart_temperatures.series[0]) {
-                chart_temperatures.series[0].setData(inner_temp);
+                chart_temperatures.series[0].setData(inner_temp_data);
             } else {
                 chart_temperatures.addSeries({
                     name: 'Temperatura Interna',
-                    data: inner_temp
+                    data: inner_temp_data
                 });
             }
 
             // Actualizar la serie de humedad externa
             if (chart_temperatures.series && chart_temperatures.series[1]) {
-                chart_temperatures.series[1].setData(outer_temp);
+                chart_temperatures.series[1].setData(outer_temp_data);
             } else {
                 chart_temperatures.addSeries({
                     name: 'Temperatura Externa',
-                    data: outer_temp
+                    data: outer_temp_data
                 });
             }
             chart_temperatures.redraw();
@@ -156,7 +178,7 @@ $(function () {
 
     // Actualización periódica (opcional, puedes mantenerla o eliminarla)
     // Si la mantienes, asegúrate de que el servidor maneje el rango en la petición inicial.
-    setInterval(function() {
+    setInterval(function () {
         var currentRange = $('#data-range-filter').val(); // Obtener el rango actual
         get_chart_data_temperatures(currentRange); // Pasar el rango a la función
     }, 5000);

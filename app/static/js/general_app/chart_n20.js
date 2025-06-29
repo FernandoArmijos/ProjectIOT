@@ -42,6 +42,7 @@ var chart_n2o = Highcharts.chart('container_chart_n2o', {
             formatter: function () {
                 // Formato para mostrar solo la fecha y la hora sin segundos
                 var date = new Date(this.value);
+                date.setHours(date.getHours() - 5); // Resta 5 horas
                 return Highcharts.dateFormat('%Y-%m-%d %H:%M', date); // Año-Mes-Día Hora:Minuto
             }
         }
@@ -67,7 +68,7 @@ var chart_n2o = Highcharts.chart('container_chart_n2o', {
                 if (point.point.creation_date_full) {
                     var formattedDate = Highcharts.dateFormat(
                         '%d-%m-%Y %H:%M',
-                        new Date(point.point.creation_date_full).getTime()
+                        new Date(point.point.creation_date_full).getTime() - (5 * 60 * 60 * 1000)
                     );
                     tooltipText += '<span style="color:#455a64;">Fecha: ' + formattedDate + '</span>';
                 }

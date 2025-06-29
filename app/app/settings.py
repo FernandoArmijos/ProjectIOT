@@ -35,7 +35,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1',
                  'localhost',
                  '.ngrok-free.app',
-                 'projectiot-production.up.railway.app'
+                 'projectiot-production.up.railway.app',
+                 '*'
                  ]
 
 CSRF_TRUSTED_ORIGINS = ['https://projectiot-production.up.railway.app']
@@ -126,7 +127,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es-ec'
 
-TIME_ZONE = 'America/Guayaquil'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 

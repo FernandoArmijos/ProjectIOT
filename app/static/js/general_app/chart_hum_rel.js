@@ -34,6 +34,7 @@ var chart_humidity = Highcharts.chart('container_chart_humidity', {
             formatter: function () {
                 // Formato para mostrar solo la fecha y la hora sin segundos
                 var date = new Date(this.value);
+                date.setHours(date.getHours() - 5); // Resta 5 horas
                 return Highcharts.dateFormat('%Y-%m-%d %H:%M', date); // Año-Mes-Día Hora:Minuto
             }
         }
@@ -68,7 +69,7 @@ var chart_humidity = Highcharts.chart('container_chart_humidity', {
             if (anyPoint.point.creation_date_full) {
                 var formattedDate = Highcharts.dateFormat(
                     '%d-%m-%Y %H:%M',
-                    new Date(anyPoint.point.creation_date_full).getTime()
+                    new Date(anyPoint.point.creation_date_full).getTime() - (5 * 60 * 60 * 1000)
                 );
                 tooltipText += 'Fecha: ' + formattedDate;
             }

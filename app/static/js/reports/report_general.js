@@ -9,8 +9,8 @@ function generate_report_general() {
     };
 
     if (date_range !== null) {
-        parameters['start_date'] = date_range.startDate.format('YYYY-MM-DD HH:mm');
-        parameters['end_date'] = date_range.endDate.format('YYYY-MM-DD HH:mm');
+        parameters['start_date'] = date_range.startDate.clone().subtract(5, 'hours').format('YYYY-MM-DD HH:mm');
+        parameters['end_date'] = date_range.endDate.clone().subtract(5, 'hours').format('YYYY-MM-DD HH:mm');
     }
 
     $('#table_report_general').DataTable({
